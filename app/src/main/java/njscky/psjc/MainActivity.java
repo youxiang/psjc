@@ -110,10 +110,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     static PictureMarkerSymbol sms;
     static SimpleLineSymbol sls;
 
-    public static GraphicsLayer tmp;
-    public static GraphicsLayer tmpline;
-    public static GraphicsLayer tmpAnno;
-    public static GraphicsLayer tmplineAnno;
+    static GraphicsLayer tmp;
+    static GraphicsLayer tmpline;
+    static GraphicsLayer tmpAnno;
+    static GraphicsLayer tmplineAnno;
 
     static GraphicsLayer questionLayer;
 
@@ -129,7 +129,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     ImageButton BtnAddpoint;
     ImageButton BtnAddline;
+    ImageButton BtnEditline;
+    ImageButton BtnSplit;
+    ImageButton BtnDelpoint;
+    ImageButton BtnDelline;
     ImageButton BtnEditAttribute;
+    ImageButton BtnCheck;
+    ImageButton BtnAddYl;
     ImageButton BtnQustion;
     TextView TextScale;
     Button btnSJBJ;
@@ -169,6 +175,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         initialize();
 
         getOverflowMenu();
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        //添加事件Spinner事件监听
+        spinner.setOnItemSelectedListener(new SpinnerSelectedListener());
+        //设置默认值
+        spinner.setVisibility(View.VISIBLE);
+
         String serviceName = Context.LOCATION_SERVICE;
         locationManager = (LocationManager) this.getSystemService(serviceName);
 
@@ -667,10 +680,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         BtnAddpoint.setOnClickListener(this);
         BtnAddline = (ImageButton) findViewById(R.id.btnaddline);
         BtnAddline.setOnClickListener(this);
-
+        BtnEditline = (ImageButton) findViewById(R.id.btneditline);
+        BtnEditline.setOnClickListener(this);
+        BtnSplit = (ImageButton) findViewById(R.id.btnsplit);
+        BtnSplit.setOnClickListener(this);
+        BtnDelpoint = (ImageButton) findViewById(R.id.btndelpoint);
+        BtnDelpoint.setOnClickListener(this);
+        BtnDelline = (ImageButton) findViewById(R.id.btndelline);
+        BtnDelline.setOnClickListener(this);
         BtnEditAttribute = (ImageButton) findViewById(R.id.btneditattribute);
         BtnEditAttribute.setOnClickListener(this);
-
+        BtnCheck = (ImageButton) findViewById(R.id.btncheck);
+        BtnCheck.setOnClickListener(this);
+        BtnAddYl = (ImageButton) findViewById(R.id.btnyl);
+        BtnAddYl.setOnClickListener(this);
         BtnQustion = (ImageButton) findViewById(R.id.btnyw);
         BtnQustion.setOnClickListener(this);
 
@@ -703,7 +726,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     } else {
                             BtnAddpoint.setSelected(false);
                             BtnAddline.setSelected(false);
+                            BtnEditline.setSelected(false);
+                            BtnDelpoint.setSelected(false);
+                            BtnDelline.setSelected(false);
                             BtnEditAttribute.setSelected(false);
+                            BtnCheck.setSelected(false);
+                            BtnSplit.setSelected(false);
+                            BtnAddYl.setSelected(false);
+                            BtnQustion.setSelected(false);
                             EditPanelCreat();
                     }
 
@@ -749,7 +779,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 case R.id.btnaddpoint:
                     BtnAddpoint.setSelected(true);
                     BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(false);
                     BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(false);
                     BtnQustion.setSelected(false);
                     Toast.makeText(this, "添加管点", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
@@ -758,37 +794,151 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 case R.id.btnaddline:
                     BtnAddpoint.setSelected(false);
                     BtnAddline.setSelected(true);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(false);
                     BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(false);
                     BtnQustion.setSelected(false);
                     Toast.makeText(this, "添加管线", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     AddLine();
                     break;
+                case R.id.btndelpoint:
+                    BtnAddpoint.setSelected(false);
+                    BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(true);
+                    BtnDelline.setSelected(false);
+                    BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(false);
+                    BtnQustion.setSelected(false);
+                    Toast.makeText(this, "删除管点", Toast.LENGTH_SHORT).show();
+                    drawTool.deactivate();
+                    DelPoint();
+                    break;
+                case R.id.btndelline:
+                    BtnAddpoint.setSelected(false);
+                    BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(true);
+                    BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(false);
+                    BtnQustion.setSelected(false);
+                    Toast.makeText(this, "删除管线", Toast.LENGTH_SHORT).show();
+                    drawTool.deactivate();
+                    DelLine();
+                    break;
                 case R.id.btneditattribute:
                     BtnAddpoint.setSelected(false);
                     BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(false);
                     BtnEditAttribute.setSelected(true);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(false);
                     BtnQustion.setSelected(false);
                     Toast.makeText(this, "属性编辑", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     ModifyAtt();
                     break;
+                case R.id.btncheck:
+                    BtnAddpoint.setSelected(false);
+                    BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(false);
+                    BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(true);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(false);
+                    BtnQustion.setSelected(false);
+                    Toast.makeText(this, "采集标记", Toast.LENGTH_SHORT).show();
+                    drawTool.deactivate();
+                    Check();
+                    break;
+                case R.id.btneditline:
+                    BtnAddpoint.setSelected(false);
+                    BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(true);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(false);
+                    BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(false);
+                    BtnQustion.setSelected(false);
+                    Toast.makeText(this, "点线匹配", Toast.LENGTH_SHORT).show();
+                    drawTool.deactivate();
+                    EditLine();
+                    break;
+                case R.id.btnsplit:
+                    BtnAddpoint.setSelected(false);
+                    BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(false);
+                    BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(true);
+                    BtnAddYl.setSelected(false);
+                    BtnQustion.setSelected(false);
+                    Toast.makeText(this, "管线打断", Toast.LENGTH_SHORT).show();
+                    drawTool.deactivate();
+                    SplitLine();
+                    break;
+                case R.id.btnyl:
+                    BtnAddpoint.setSelected(false);
+                    BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(false);
+                    BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(true);
+                    BtnQustion.setSelected(false);
+                    Toast.makeText(this, "添加预留管线", Toast.LENGTH_SHORT).show();
+                    drawTool.deactivate();
+                    AddYLLine();
+                    break;
                 case R.id.btnyw:
                     BtnAddpoint.setSelected(false);
                     BtnAddline.setSelected(false);
+                    BtnEditline.setSelected(false);
+                    BtnDelpoint.setSelected(false);
+                    BtnDelline.setSelected(false);
                     BtnEditAttribute.setSelected(false);
+                    BtnCheck.setSelected(false);
+                    BtnSplit.setSelected(false);
+                    BtnAddYl.setSelected(false);
                     BtnQustion.setSelected(true);
                     strCurFunction="问题标记";
 
                     drawTool.activate(DrawTool.POLYGON);
                     break;
                 case R.id.btnXJ:
+//                    drawTool.deactivate();
+//                    if (Insepectyout.getVisibility() == View.VISIBLE)
+//                        Insepectyout.setVisibility(View.INVISIBLE);
+//                    else {
+//                        Insepectyout.setVisibility(View.VISIBLE);
+//                    }
                     try {
                         mapView.setOnSingleTapListener(null);
                         mapView.setOnLongPressListener(null);
                         mapView.setOnSingleTapListener(new OnSingleTapListener() {
                             public void onSingleTap(float x, float y) {
-                                tmp = GetGraphicLayerbyName("雨水管点");
+                                tmp = GetGraphicLayerbyName("雨水管点_检查井");
                                 //获取点属性
                                 selids = tmp.getGraphicIDs(x, y, 20);
                                 if (selids.length != 0) {
@@ -800,10 +950,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                             Intent intentxj = new Intent();
                                             intentxj.setClass(MainActivity.this, Inspection.class);
                                             Inspection._gddh=strJCJBH;
-                                            Inspection.pp=pt;
-                                            Inspection.GDAnnogralayer=tmpAnno;
-                                            Inspection.GDgralayer=tmp;
-                                            Inspection.gra=gra;
                                             startActivity(intentxj);
                                             break;
                                         }
@@ -845,7 +991,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                         mapView.setOnLongPressListener(null);
                         mapView.setOnSingleTapListener(new OnSingleTapListener() {
                             public void onSingleTap(float x, float y) {
-                                    tmp = GetGraphicLayerbyName("雨水管点");
+                                    tmp = GetGraphicLayerbyName("雨水管点_检修井");
                                     //获取点属性
                                     selids = tmp.getGraphicIDs(x, y, 20);
                                     if (selids.length != 0) {
@@ -853,14 +999,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                             Graphic gra = tmp.getGraphic(selids[i]);
                                             Point pt = (Point) gra.getGeometry();
                                             if (gra.getAttributeNames().length > 0) {
-                                                String strJCJBH = gra.getAttributeValue("JCJBH").toString().trim();
+                                                String strJCJBH = gra.getAttributeValue("JXJBH").toString().trim();
                                                 Intent intentxj = new Intent();
                                                 intentxj.setClass(MainActivity.this, Inspection.class);
                                                 Inspection._gddh=strJCJBH;
-                                                Inspection.pp = pt;
-                                                Inspection.GDAnnogralayer=tmpAnno;
-                                                Inspection.GDgralayer=tmp;
-                                                Inspection.gra=gra;
                                                 startActivity(intentxj);
                                                 break;
                                             }
@@ -884,6 +1026,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     break;
                 case R.id.btnSpeedRemind:
                     drawTool.deactivate();
+//                    Intent speedintent = new Intent();
+//                    speedintent.setClass(MainActivity.this, speed.class);
+//                    startActivity(speedintent);
                     AlertDialog isExit = new AlertDialog.Builder(this).create();
                     isExit.setTitle("系统提示");
                     isExit.setMessage("确定要退出系统");
@@ -920,7 +1065,27 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     void StartGPS() {
-
+        //unregisterListener();
+//        String serviceName = Context.LOCATION_SERVICE;
+//        locationManager = (LocationManager) this.getSystemService(serviceName);
+//
+//        //判断GPS是否正常启动
+//        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)&&locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER)) {
+//            Toast.makeText(this, "请开启GPS导航...", Toast.LENGTH_SHORT).show();
+//            //返回开启GPS导航设置界面
+//            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//            startActivityForResult(intent, 0);
+//            return;
+//        }
+//
+//        //精度
+//        Criteria criteria = new Criteria();
+//        criteria.setAccuracy(Criteria.ACCURACY_FINE);//ACCURACY_COARSE 模糊；ACCURACY_FINE 高精度
+//        criteria.setAltitudeRequired(false);//不需要海拔
+//        criteria.setBearingRequired(false);
+//        criteria.setCostAllowed(false);//不需要费用
+//        criteria.setSpeedRequired(true); //需要速度
+//        criteria.setPowerRequirement(Criteria.POWER_LOW); //电量消耗低
         String provider = locationManager.getBestProvider(criteria, true);
 
         location = locationManager.getLastKnownLocation(provider);
@@ -931,6 +1096,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         // 第四个参数，监听器
         locationManager.requestLocationUpdates(provider, 5000,1, locationListener);
 
+//        LocationClient mLocationClient=new LocationClient(getApplicationContext());
+//        MyLocationListener mMyLocationListener = new MyLocationListener();
+//        // 注册监听事件，MyLocationListener两个重写方法处理相关操作
+//        mLocationClient.registerLocationListener(mMyLocationListener);
+//        // 设置定位参数包括：定位模式（单次定位，定时定位），返回坐标类型，是否打开GPS等等
+//        LocationClientOption option = new LocationClientOption();
+//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);//设置高精度定位定位模式
+//        option.setCoorType("bd09ll");//设置百度经纬度坐标系格式
+//        option.setScanSpan(1000);//设置发起定位请求的间隔时间为1000ms
+//        //option.setIsNeedAddress(true);//反编译获得具体位置，只有网络定位才可以
+//        mLocationClient.setLocOption(option);
+//        mLocationClient.start();
+//        if(mLocationClient!=null && mLocationClient.isStarted())
+//           mLocationClient.requestLocation();
     }
     private void unregisterListener() {
         locationManager.removeUpdates(locationListener);
@@ -969,6 +1148,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                 ShowTmpGraphic(lng, lat);
             }
             blnRefresh=false;
+//                if(speed>25){
+//                    Intent speedintent = new Intent();
+//                    speedintent.setClass(MainActivity.this, speed.class);
+//                    startActivity(speedintent);
+//                }
+
+
             String tmp = CoordinateConversion.ConvertXY(lng, lat);
             String strValues = MainActivity.strUserCode + "," + MainActivity.strPlanCode + "," + speed + "," + "2" + "," + tmp.split(";")[0] + "," + tmp.split(";")[1] + ",true";
             HashMap<String, String> properties = new HashMap<String, String>();
@@ -984,6 +1170,68 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     }
                 }
             });
+
+
+//            //判断坐标是否一样
+//            if(strLastX!="" && strLastY!="") {
+//                double dblLastX = Double.valueOf(strLastX);
+//                double dblLastY = Double.valueOf(strLastY);
+//                double dblCurX = Double.valueOf(tmp.split(";")[0]);
+//                double dblCurY = Double.valueOf(tmp.split(";")[1]);
+//
+//                double dblLen=Math.sqrt((dblCurX-dblLastX)*(dblCurX-dblLastX)+(dblCurY-dblLastY)*(dblCurY-dblLastY));
+//                if(dblLen>0.01){
+//                    String strValues = MainActivity.strUserCode + "," + MainActivity.strPlanCode + "," + speed + "," + "2" + "," + tmp.split(";")[0] + "," + tmp.split(";")[1] + ",true";
+//                    HashMap<String, String> properties = new HashMap<String, String>();
+//                    properties.put("strValues", strValues);
+//
+//                    WebServiceUtils.callWebService(WebServiceUtils.WEB_SERVER_URL, "InsertTrackpoint", properties, new WebServiceUtils.WebServiceCallBack() {
+//
+//                        @Override
+//                        public void callBack(SoapObject result) {
+//                            ProgressDialogUtils.dismissProgressDialog();
+//                            if (result.toString().contains("轨迹更新失败") || result.toString().contains("字符串格式不正确")) {
+//                                Toast.makeText(MainActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                }
+//                else{
+//                    String strValues = MainActivity.strUserCode + "," + MainActivity.strPlanCode + "," + speed + "," + "2" + "," + tmp.split(";")[0] + "," + tmp.split(";")[1] + ",false";
+//                    HashMap<String, String> properties = new HashMap<String, String>();
+//                    properties.put("strValues", strValues);
+//
+//                    WebServiceUtils.callWebService(WebServiceUtils.WEB_SERVER_URL, "InsertTrackpoint", properties, new WebServiceUtils.WebServiceCallBack() {
+//
+//                        @Override
+//                        public void callBack(SoapObject result) {
+//                            ProgressDialogUtils.dismissProgressDialog();
+//                            if (result.toString().contains("轨迹更新失败") || result.toString().contains("字符串格式不正确")) {
+//                                Toast.makeText(MainActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
+//                }
+//            }
+//            else {
+//                String strValues = MainActivity.strUserCode + "," + MainActivity.strPlanCode + "," + speed + "," + "2" + "," + tmp.split(";")[0] + "," + tmp.split(";")[1] + ",true";
+//                HashMap<String, String> properties = new HashMap<String, String>();
+//                properties.put("strValues", strValues);
+//
+//                WebServiceUtils.callWebService(WebServiceUtils.WEB_SERVER_URL, "InsertTrackpoint", properties, new WebServiceUtils.WebServiceCallBack() {
+//
+//                    @Override
+//                    public void callBack(SoapObject result) {
+//                        ProgressDialogUtils.dismissProgressDialog();
+//                        if (result.toString().contains("轨迹更新失败") || result.toString().contains("字符串格式不正确")) {
+//                            Toast.makeText(MainActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//            }
+
+//            strLastX=tmp.split(";")[0];
+//            strLastY=tmp.split(";")[1];
             latLongString = "经度:" + lng + " 纬度:" + lat;
             Toast.makeText(this, latLongString, Toast.LENGTH_LONG).show();
         } else {
@@ -1058,6 +1306,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             if (Editlyout.getVisibility() == View.VISIBLE)
                 Editlyout.setVisibility(View.INVISIBLE);
             else {
+                GraphicClasslst = new ArrayList<GraphicClass>();
+                ArrayList<String> gxtype = new ArrayList<String>();
+                for (int i = 0; i < graphicClassList.size(); i++) {
+                    if (!gxtype.contains(graphicClassList.get(i).getGXTYPE())) {
+                        gxtype.add(graphicClassList.get(i).getGXTYPE());
+                        GraphicClasslst.add(graphicClassList.get(i));
+                    }
+                }
+
+                //将可选内容与ArrayAdapter连接起来
+                adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, gxtype);
+                //设置下拉列表的风格
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                //将adapter 添加到spinner中
+                spinner.setAdapter(adapter);
                 Editlyout.setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
@@ -1080,6 +1343,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     break;
                 }
             }
+
             return Gralyr;
         } catch (Exception e) {
             new AlertDialog.Builder(this)
@@ -1131,6 +1395,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             tmp = GetGraphicLayerbyName(CurGraphicClass.getGDAliases());
             tmpline = GetGraphicLayerbyName(CurGraphicClass.getGXAliases());
             tmplineAnno = GetGraphicLayerbyName(CurGraphicClass.getGXAliases() + "注记");
+//
             selpointslt = new ArrayList<Graphic>();
             mapView.setOnSingleTapListener(new OnSingleTapListener() {
                 public void onSingleTap(float x, float y) {
@@ -1145,6 +1410,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                    toast.show();
                                }
                            }
+                        //先选择一个点
+//                        for (int m = 0; m < GraphicClasslst.size(); m++) {
+//                            _GraphicClass = GraphicClasslst.get(m);
+//                            tmp = GetGraphicLayerbyName(_GraphicClass.getGDAliases());
+//                            tmpline = GetGraphicLayerbyName(_GraphicClass.getGXAliases());
+//                            tmplineAnno = GetGraphicLayerbyName(_GraphicClass.getGXAliases() + "注记");
+//                            if (selpointslt.size() != 2) {
+//                                int[] selids = tmp.getGraphicIDs(x, y, 20);
+//                                if (selids.length != 0) {
+//                                    Graphic graPoint = tmp.getGraphic(selids[0]);
+//                                    selpointslt.add(graPoint);
+//                                    Toast toast = Toast.makeText(MainActivity.this, "已选择第" + String.valueOf(selpointslt.size()) + "个点", Toast.LENGTH_SHORT);
+//                                    toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, -100);
+//                                    toast.show();
+//                                    break;
+//                                }
+//                            }
+//                        }
+
+
                     } else if (selpointslt.size() == 1) {
                         int[] selids = tmp.getGraphicIDs(x, y, 20);
                         if (selids.length != 0) {
@@ -1204,7 +1489,140 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         }
 
     }
+
+    void DelPoint() {
+        try {
+            mapView.setOnSingleTapListener(null);
+            mapView.setOnLongPressListener(null);
+            mapView.setOnSingleTapListener(new OnSingleTapListener() {
+                public void onSingleTap(float x, float y) {
+//                    for (int m = 0; m < graphicClassList.size(); m++) {
+                    _GraphicClass =CurGraphicClass;
+                        tmp = GetGraphicLayerbyName(_GraphicClass.getGDAliases());
+                        tmpAnno = GetGraphicLayerbyName(_GraphicClass.getGDAliases() + "注记");
+                        selids = tmp.getGraphicIDs(x, y, 20);
+
+                        if (selids.length != 0) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setTitle("确定删除？");
+                            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    Graphic gra = tmp.getGraphic(selids[0]);
+                                    Point pt = (Point) gra.getGeometry();
+                                    Point pt1 = mapView.toScreenPoint(pt);
+                                    int[] selAnnoids = tmpAnno.getGraphicIDs((float) pt1.getX(), (float) pt1.getY(), 20);
+                                    //删除注记
+                                    if (selAnnoids.length != 0) {
+                                        for (int i = 0; i < selAnnoids.length; i++) {
+                                            Graphic graAnno = tmpAnno.getGraphic(selAnnoids[i]);
+                                            Symbol symbol = graAnno.getSymbol();
+                                            TextSymbol tsT1 = (TextSymbol) symbol;
+                                            String _tcdh = gra.getAttributeValue("WTDH").toString();
+                                            if (tsT1.getText().toString().equals(_tcdh)) {
+                                                tmpAnno.removeGraphic(selAnnoids[i]);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    String sql = "Update POINT set JCXX = '删除' WHERE WTDH ='" + gra.getAttributeValue("WTDH").toString() + "' and GXDM = '" + _GraphicClass.getGLDM() + "'";
+                                    DelFromDB(sql);
+                                    tmp.removeGraphic(selids[0]);
+
+                                    Toast toast = Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.TOP | Gravity.CENTER, -200, 0);
+                                    toast.show();
+                                }
+                            });
+
+                            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+
+                                }
+                            });
+                            builder.create().show();
+//                            break;
+                        }
+//                    }
+                }
+            });
+        } catch (Exception e) {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(e.getMessage())
+                    .setPositiveButton("确定", null)
+                    .show();
+        }
+
+    }
+
+    void DelLine() {
+        try {
+            mapView.setOnSingleTapListener(null);
+            mapView.setOnLongPressListener(null);
+            mapView.setOnSingleTapListener(new OnSingleTapListener() {
+                                               public void onSingleTap(float x, float y) {
+                                                   //                    for (int m = 0; m < graphicClassList.size(); m++) {
+                                                   _GraphicClass =CurGraphicClass;
+                                                       tmpline = GetGraphicLayerbyName(_GraphicClass.getGXAliases());
+                                                       tmplineAnno = GetGraphicLayerbyName(_GraphicClass.getGXAliases() + "注记");
+                                                       selids = tmpline.getGraphicIDs(x, y, 20);
+                                                       if (selids.length != 0) {
+                                                           AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                                           builder.setTitle("确定删除？");
+                                                           builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                                       public void onClick(DialogInterface dialog, int whichButton) {
+                                                                           Graphic gra = tmpline.getGraphic(selids[0]);
+                                                                           Polyline pl = (Polyline) gra.getGeometry();
+                                                                           Point ptS = pl.getPoint(0);
+                                                                           Point ptE = pl.getPoint(1);
+                                                                           double d_CenterX = (ptE.getX() + ptS.getX()) / 2;
+                                                                           double d_CenterY = (ptE.getY() + ptS.getY()) / 2;
+                                                                           Point pt = new Point();
+                                                                           pt.setXY(d_CenterX, d_CenterY);
+                                                                           Point pt1 = mapView.toScreenPoint(pt);
+                                                                           int[] selAnnoids = tmplineAnno.getGraphicIDs((float) pt1.getX(), (float) pt1.getY(), 20);
+                                                                           //删除注记
+                                                                           if (selAnnoids.length != 0) {
+                                                                               tmplineAnno.removeGraphic(selAnnoids[0]);
+                                                                           }
+                                                                           String sql = "update LINE set JCXX = '删除'  WHERE QDDH ='" + gra.getAttributeValue("QDDH").toString() + "' and ZDDH ='" + gra.getAttributeValue("ZDDH").toString() + "' and GXDM = '" + _GraphicClass.getGLDM() + "'";
+                                                                           DelFromDB(sql);
+                                                                           tmpline.removeGraphic(selids[0]);
+
+
+                                                                           Toast toast = Toast.makeText(MainActivity.this, "删除成功", Toast.LENGTH_SHORT);
+                                                                           toast.setGravity(Gravity.TOP | Gravity.CENTER, -200, 0);
+                                                                           toast.show();
+                                                                       }
+                                                                   }
+
+                                                           );
+
+                                                           builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                               public void onClick(DialogInterface dialog, int whichButton) {
+
+                                                               }
+                                                           });
+                                                           builder.create().show();
+//                                                           break;
+                                                       }
+//                                                   }
+                                               }
+                                           }
+
+            );
+        } catch (Exception e) {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(e.getMessage())
+                    .setPositiveButton("确定", null)
+                    .show();
+        }
+
+    }
+
     public static void CreatGDGraphic(Point pt, Map<String, Object> attributes) {
+        //SimpleMarkerSymbol sms = new SimpleMarkerSymbol(Color.argb(255,255,59,7), 15, SimpleMarkerSymbol.STYLE.CIRCLE);
         Graphic graphic = new Graphic(pt, sms, attributes);
         tmp.addGraphic(graphic);
     }
@@ -1247,11 +1665,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             mapView.setOnSingleTapListener(new OnSingleTapListener() {
                 public void onSingleTap(float x, float y) {
 //                    for (int m = 0; m < graphicClassList.size(); m++) {
-//                        _GraphicClass =CurGraphicClass;
-////                        tmp = GetGraphicLayerbyName(_GraphicClass.getGDAliases());
-//                        tmpline = GetGraphicLayerbyName(_GraphicClass.getGXAliases());
-//                        tmpAnno = GetGraphicLayerbyName(_GraphicClass.getGDAliases() + "注记");
-//                        tmplineAnno = GetGraphicLayerbyName(_GraphicClass.getGXAliases() + "注记");
+                        _GraphicClass =CurGraphicClass;
+                        tmp = GetGraphicLayerbyName(_GraphicClass.getGDAliases());
+                        tmpline = GetGraphicLayerbyName(_GraphicClass.getGXAliases());
+                        tmpAnno = GetGraphicLayerbyName(_GraphicClass.getGDAliases() + "注记");
+                        tmplineAnno = GetGraphicLayerbyName(_GraphicClass.getGXAliases() + "注记");
 
                         //判断线段长度是否超过8米，若小于8米弹出选择框
                         selids = tmpline.getGraphicIDs(x, y, 20);
@@ -1261,6 +1679,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                 if (gra1.getAttributeNames().length > 0) {
                                     Polyline pl = (Polyline) gra1.getGeometry();
                                     double dbllen = pl.calculateLength2D();
+                                    if (dbllen > 8) {
                                         //获取点属性
                                         selids = tmp.getGraphicIDs(x, y, 20);
                                         if (selids.length != 0) {
@@ -1270,22 +1689,22 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                                     point_class.pp = (Point) gra.getGeometry();
                                                     point_class._x = x;
                                                     point_class._y = y;
-//                                                    point_class.TableName = _GraphicClass.getGLDM();
-//                                                    point_class.TableNameCN = _GraphicClass.getGDAliases();
-//                                                    point_class.ColorRGB = _GraphicClass.getColorRGB();
-//                                                    point_class.GDgralayer = tmp;
-//                                                    point_class.GXgralayer = tmpline;
-//                                                    point_class.GDAnnogralayer = tmpAnno;
-//                                                    point_class._tcdh = gra.getAttributeValue("WTDH").toString();
-//                                                    point_class._tzd = gra.getAttributeValue("TZD").toString();
-//                                                    point_class._fsw = gra.getAttributeValue("FSW").toString();
-//                                                    point_class._bz = gra.getAttributeValue("BZ").toString();
-//                                                    point_class._gtlx=gra.getAttributeValue("GTLX").toString();
-//                                                    point_class._xg= gra.getAttributeValue("DMGC").toString();
-//
-//                                                    point_class.GDIMG = _GraphicClass.getGDIMG();
-//                                                    point_class._graphicID = gra.getId();
-//                                                    point_class.blnEdit = true;
+                                                    point_class.TableName = _GraphicClass.getGLDM();
+                                                    point_class.TableNameCN = _GraphicClass.getGDAliases();
+                                                    point_class.ColorRGB = _GraphicClass.getColorRGB();
+                                                    point_class.GDgralayer = tmp;
+                                                    point_class.GXgralayer = tmpline;
+                                                    point_class.GDAnnogralayer = tmpAnno;
+                                                    point_class._tcdh = gra.getAttributeValue("WTDH").toString();
+                                                    point_class._tzd = gra.getAttributeValue("TZD").toString();
+                                                    point_class._fsw = gra.getAttributeValue("FSW").toString();
+                                                    point_class._bz = gra.getAttributeValue("BZ").toString();
+                                                    point_class._gtlx=gra.getAttributeValue("GTLX").toString();
+                                                    point_class._xg= gra.getAttributeValue("DMGC").toString();
+
+                                                    point_class.GDIMG = _GraphicClass.getGDIMG();
+                                                    point_class._graphicID = gra.getId();
+                                                    point_class.blnEdit = true;
 
                                                     Intent Pointintent = new Intent();
                                                     Pointintent.setClass(MainActivity.this, point_class.class);
@@ -1347,7 +1766,142 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                             }
                                         }
 
+                                    } else {
+                                        FeatureSelect.DHlst = new ArrayList<String>();
+                                        FeatureSelect.TableNamelst = new ArrayList<String>();
+                                        FeatureSelect.TableNameCNlst = new ArrayList<String>();
+                                        FeatureSelect.Graphiclst = new ArrayList<Graphic>();
+                                        FeatureSelect.RGBlst = new ArrayList<String>();
+                                        FeatureSelect.Imglst = new ArrayList<String>();
+                                        FeatureSelect.Typelst = new ArrayList<String>();
+                                        FeatureSelect.GDgralayerlst = new ArrayList<GraphicsLayer>();
+                                        FeatureSelect.GXgralayerlst = new ArrayList<GraphicsLayer>();
+                                        FeatureSelect.GDAnnogralayerlst = new ArrayList<GraphicsLayer>();
+                                        FeatureSelect.GXAnnogralayerlst = new ArrayList<GraphicsLayer>();
 
+                                        for (int i = 0; i < selids.length; i++) {
+                                            Graphic graline = tmpline.getGraphic(selids[i]);
+                                            if (graline.getAttributeNames().length > 0) {
+                                                String strQDDH = graline.getAttributeValue("QDDH").toString();
+                                                String strZDDH = graline.getAttributeValue("ZDDH").toString();
+                                                String strTableName = _GraphicClass.getGLDM();
+                                                String strTableNameCN = _GraphicClass.getGXAliases();
+                                                String strDH = strQDDH + "-" + strZDDH;
+                                                FeatureSelect.DHlst.add(strDH);
+                                                FeatureSelect.TableNamelst.add(strTableName);
+                                                FeatureSelect.TableNameCNlst.add(strTableNameCN);
+                                                FeatureSelect.Graphiclst.add(graline);
+                                                FeatureSelect.GDgralayerlst.add(tmp);
+                                                FeatureSelect.GXgralayerlst.add(tmpline);
+                                                FeatureSelect.GDAnnogralayerlst.add(tmpAnno);
+                                                FeatureSelect.GXAnnogralayerlst.add(tmplineAnno);
+                                                FeatureSelect.RGBlst.add(_GraphicClass.getColorRGB());
+                                                FeatureSelect.Imglst.add(_GraphicClass.getGDIMG());
+                                                FeatureSelect.Typelst.add(_GraphicClass.getTYPE());
+                                            }
+                                        }
+
+                                        selids = tmp.getGraphicIDs(x, y, 20);
+                                        if (selids.length != 0) {
+                                            for (int i = 0; i < selids.length; i++) {
+                                                Graphic gra = tmp.getGraphic(selids[i]);
+                                                if (gra.getAttributeNames().length > 0) {
+                                                    String strTCDH = gra.getAttributeValue("WTDH").toString();
+                                                    String strTableName = _GraphicClass.getGLDM();
+                                                    String strTableNameCN = _GraphicClass.getGDAliases();
+                                                    FeatureSelect.DHlst.add(strTCDH);
+                                                    FeatureSelect.TableNamelst.add(strTableName);
+                                                    FeatureSelect.TableNameCNlst.add(strTableNameCN);
+                                                    FeatureSelect.Graphiclst.add(gra);
+                                                    FeatureSelect.GDgralayerlst.add(tmp);
+                                                    FeatureSelect.GXgralayerlst.add(tmpline);
+                                                    FeatureSelect.GDAnnogralayerlst.add(tmpAnno);
+                                                    FeatureSelect.GXAnnogralayerlst.add(tmplineAnno);
+                                                    FeatureSelect.RGBlst.add(_GraphicClass.getColorRGB());
+                                                    FeatureSelect.Imglst.add(_GraphicClass.getGDIMG());
+                                                    FeatureSelect.Typelst.add(_GraphicClass.getTYPE());
+                                                }
+                                            }
+                                        }
+                                        FeatureSelect._x = x;
+                                        FeatureSelect._y = y;
+
+                                        if (FeatureSelect.DHlst.size() == 1) {
+                                            Graphic gra = (Graphic) FeatureSelect.Graphiclst.get(0);
+                                            String strTableName = FeatureSelect.TableNameCNlst.get(0);
+                                            if (strTableName.contains("管点")) {
+                                                point_class.pp = (Point) gra.getGeometry();
+                                                point_class._x = x;
+                                                point_class._y = y;
+                                                point_class.TableName = FeatureSelect.TableNamelst.get(0);
+                                                point_class.TableNameCN = FeatureSelect.TableNameCNlst.get(0);
+                                                point_class.ColorRGB = FeatureSelect.RGBlst.get(0);
+                                                point_class.GDgralayer = FeatureSelect.GDgralayerlst.get(0);
+                                                point_class.GXgralayer = FeatureSelect.GXgralayerlst.get(0);
+                                                point_class.GDAnnogralayer = FeatureSelect.GDAnnogralayerlst.get(0);
+                                                point_class._tcdh = gra.getAttributeValue("WTDH").toString();
+                                                point_class._tzd = gra.getAttributeValue("TZD").toString();
+                                                point_class._fsw = gra.getAttributeValue("FSW").toString();
+                                                point_class._gtlx=gra.getAttributeValue("GTLX").toString();
+                                                point_class._xg= gra.getAttributeValue("DMGC").toString();
+                                                point_class._bz = gra.getAttributeValue("BZ").toString();
+                                                point_class.GDIMG = FeatureSelect.Imglst.get(0);
+                                                point_class._graphicID = gra.getId();
+                                                point_class.blnEdit = true;
+
+                                                Intent Pointintent = new Intent();
+                                                Pointintent.setClass(MainActivity.this, point_class.class);
+                                                startActivity(Pointintent);
+
+                                            } else if (strTableName.contains("管线")) {
+                                                MainActivity.polyline = (Polyline) gra.getGeometry();
+                                                line_class.TableName = FeatureSelect.TableNamelst.get(0);
+                                                line_class.TableNameCN = FeatureSelect.TableNameCNlst.get(0);
+                                                line_class._x = x;
+                                                line_class._y = y;
+                                                line_class.GXAnnogralayer = FeatureSelect.GXAnnogralayerlst.get(0);
+                                                line_class.TYPE = FeatureSelect.Typelst.get(0);
+                                                line_class.ColorRGB = FeatureSelect.RGBlst.get(0);
+                                                line_class._qddh = gra.getAttributeValue("QDDH").toString();
+                                                line_class._zddh = gra.getAttributeValue("ZDDH").toString();
+
+                                                line_class._cz = gra.getAttributeValue("CZ").toString();
+                                                line_class._gj = gra.getAttributeValue("GJ").toString();
+                                                for (int i = 0; i < gra.getAttributeNames().length; i++) {
+                                                    if (gra.getAttributeNames()[i].equals("DYZ")) {
+                                                        line_class._dyz = gra.getAttributeValue("DYZ").toString();
+                                                        break;
+                                                    }
+                                                }
+                                                for (int j = 0; j < gra.getAttributeNames().length; j++) {
+                                                    if (gra.getAttributeNames()[j].equals("YL")) {
+                                                        line_class._yl = gra.getAttributeValue("YL").toString();
+                                                        break;
+                                                    }
+                                                }
+
+                                                line_class._bz = gra.getAttributeValue("BZ").toString();
+
+                                                line_class._graphicID = gra.getId();
+                                                line_class.blnEdit = true;
+                                                line_class._graphic = gra;
+                                                line_class.GXgralayer = FeatureSelect.GXgralayerlst.get(0);
+                                                String[] rgb = FeatureSelect.RGBlst.get(0).split(",");
+                                                sls = new SimpleLineSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])), 2, SimpleLineSymbol.STYLE.SOLID);
+
+                                                Intent lineintent = new Intent();
+                                                lineintent.setClass(MainActivity.this, line_class.class);
+                                                startActivity(lineintent);
+                                            }
+
+                                        } else {
+                                            //弹出下拉列表
+                                            Intent xzintent = new Intent();
+                                            xzintent.setClass(MainActivity.this, FeatureSelect.class);
+                                            startActivity(xzintent);
+                                        }
+
+                                    }
                                     break;
                                 }
 
@@ -1586,6 +2140,914 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     }
 
+    void Check() {
+        try {
+            mapView.setOnSingleTapListener(null);
+            mapView.setOnLongPressListener(null);
+            mapView.setOnSingleTapListener(new OnSingleTapListener() {
+                public void onSingleTap(float x, float y) {
+                    for (int m = 0; m < GraphicClasslst.size(); m++) {
+                        _GraphicClass = GraphicClasslst.get(m);
+                        tmp = GetGraphicLayerbyName(_GraphicClass.getGDAliases());
+                        //获取点属性
+                        selids = tmp.getGraphicIDs(x, y, 20);
+                        if (selids.length != 0) {
+                            for (int i = 0; i < selids.length; i++) {
+                                Graphic gra = tmp.getGraphic(selids[i]);
+                                if (gra.getAttributeNames().length > 0) {
+                                    Point pp = (Point) gra.getGeometry();
+                                    String strSFCJ = gra.getAttributeValue("SFCJ").toString().trim();
+                                    if (strSFCJ.equals("否")) {
+                                        //更新数据库
+                                        String sql = "update POINT set SFCJ ='是' WHERE WTDH ='" + gra.getAttributeValue("WTDH").toString() + "' and GXDM = '" + _GraphicClass.getGLDM() + "'";
+                                        DelFromDB(sql);
+
+                                        //标记为采集
+                                        SimpleMarkerSymbol sms1 = new SimpleMarkerSymbol(Color.argb(255, 156, 156, 156), 15, SimpleMarkerSymbol.STYLE.CIRCLE);
+                                        //修改属性
+                                        Map<String, Object> attributes = gra.getAttributes();
+                                        Map<String, Object> newattributes = new HashMap<String, Object>();
+
+                                        Iterator<String> iterator = attributes.keySet().iterator();
+                                        while (iterator.hasNext()) {
+                                            String key = iterator.next();
+                                            String value = (String) attributes.get(key);
+                                            if (key.equals("SFCJ")) {
+                                                newattributes.put("SFCJ", "是");
+                                            } else {
+                                                newattributes.put(key, value);
+                                            }
+                                        }
+
+                                        Graphic graphic1 = new Graphic(pp, sms1, newattributes);
+                                        tmp.removeGraphic((int) gra.getId());
+                                        tmp.addGraphic(graphic1);
+                                    } else {
+                                        //更新数据库
+                                        String sql = "update POINT set SFCJ = '否' WHERE WTDH ='" + gra.getAttributeValue("WTDH").toString() + "' and GLDM = '" + _GraphicClass.getGLDM() + "'";
+                                        DelFromDB(sql);
+
+                                        //修改属性
+                                        Map<String, Object> attributes = gra.getAttributes();
+                                        Map<String, Object> newattributes = new HashMap<String, Object>();
+
+                                        Iterator<String> iterator = attributes.keySet().iterator();
+                                        while (iterator.hasNext()) {
+                                            String key = iterator.next();
+                                            String value = (String) attributes.get(key);
+                                            if (key.equals("SFCJ")) {
+                                                newattributes.put("SFCJ", "否");
+                                            } else {
+                                                newattributes.put(key, value);
+                                            }
+                                        }
+                                        String strImgFSW = _GraphicClass.getGDIMG() + "-" + gra.getAttributeValue("FSW").toString();
+                                        String strImgTZD = _GraphicClass.getGDIMG() + "-" + gra.getAttributeValue("TZD").toString();
+                                        String strImgName = "";
+                                        if (ImgTypeList.indexOf(strImgFSW) > -1) {
+                                            strImgName = ImgNameList.get(ImgTypeList.indexOf(strImgFSW));
+                                        } else if (ImgTypeList.indexOf(strImgTZD) > -1) {
+                                            strImgName = ImgNameList.get(ImgTypeList.indexOf(strImgTZD));
+                                        } else {
+                                            strImgName = ImgNameList.get(ImgTypeList.indexOf(_GraphicClass.getGDIMG() + "-" + "直线点"));
+                                        }
+
+                                        int imgId = getResources().getIdentifier(strImgName, "drawable", getPackageName());
+                                        Drawable image = getResources().getDrawable(imgId);
+                                        sms = new PictureMarkerSymbol(image);
+                                        Graphic graphic1 = new Graphic(pp, sms, newattributes);
+                                        tmp.removeGraphic((int) gra.getId());
+                                        tmp.addGraphic(graphic1);
+                                        if (image != null) {
+                                            image.setCallback(null);
+                                            sms = null;
+                                            graphic1 = null;
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(e.getMessage())
+                    .setPositiveButton("确定", null)
+                    .show();
+        }
+    }
+
+
+    void EditLine() {
+        try {
+            mapView.setOnSingleTapListener(null);
+            mapView.setOnLongPressListener(null);
+//            tmp = GetGraphicLayerbyName(CurGraphicClass.getGDAliases());
+//            tmpline = GetGraphicLayerbyName(CurGraphicClass.getGXAliases());
+//            tmplineAnno = GetGraphicLayerbyName(CurGraphicClass.getGXAliases() + "注记");
+            selpointslt = new ArrayList<Graphic>();
+            sellineslt = new ArrayList<Graphic>();
+
+            mapView.setOnLongPressListener(new OnLongPressListener() {
+                public boolean onLongPress(float x, float y) {
+                    if (selpointslt.size() != 2) {
+                        int[] selids = tmp.getGraphicIDs(x, y, 20);
+                        if (selids.length != 0) {
+                            for (int i = 0; i < selids.length; i++) {
+                                Graphic graPoint = tmp.getGraphic(selids[i]);
+                                if (graPoint.getAttributeNames().length > 0) {
+                                    selpointslt.add(graPoint);
+                                    Toast toast = Toast.makeText(MainActivity.this, "已选择一个管点", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, -100);
+                                    toast.show();
+                                    break;
+                                }
+                            }
+                        } else {
+                            selids = tmpline.getGraphicIDs(x, y, 20);
+                            if (selids.length != 0) {
+                                for (int i = 0; i < selids.length; i++) {
+                                    Graphic graline = tmpline.getGraphic(selids[i]);
+                                    if (graline.getAttributeNames().length > 0) {
+                                        sellineslt.add(graline);
+                                        Toast toast = Toast.makeText(MainActivity.this, "已选择一条管线", Toast.LENGTH_SHORT);
+                                        toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, -100);
+                                        toast.show();
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (selpointslt.size() == 1 && sellineslt.size() == 1) {
+                        String strTCDH = selpointslt.get(0).getAttributeValue("WTDH").toString().trim();
+                        String strQDDH = sellineslt.get(0).getAttributeValue("QDDH").toString().trim();
+                        String strZDDH = sellineslt.get(0).getAttributeValue("ZDDH").toString().trim();
+
+                        String strGJ = sellineslt.get(0).getAttributeValue("GJ").toString().trim();
+                        String strCZ = sellineslt.get(0).getAttributeValue("CZ").toString().trim();
+                        String strDYZ = "";
+                        String strType = CurGraphicClass.getTYPE().toString();
+                        if (strType.contains("DL_")) {
+                            strDYZ = sellineslt.get(0).getAttributeValue("DYZ").toString().trim();
+                        }
+
+
+                        Graphic graline = sellineslt.get(0);
+                        if (strTCDH.equals(strQDDH) || strTCDH.equals(strZDDH)) {
+                            Toast toast = Toast.makeText(MainActivity.this, "只能选择一个管点和一条管线，请重新选择", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER, -200, 0);
+                            toast.show();
+                        } else if (!strQDDH.equals("")) {
+                            //更新管线点号
+                            DBManager.DB_PATH = MainActivity.prjDBpath;
+                            dbManager = new DBManager(MainActivity.this);
+                            db = dbManager.openDatabase();
+
+                            Point ptE = (Point) selpointslt.get(0).getGeometry();
+                            Point ptS = new Point();
+                            Cursor curE = db.rawQuery("SELECT XZB, YZB FROM POINT WHERE WTDH ='" + strQDDH + "' and GLDM = '" + CurGraphicClass.getGLDM() + "'", null);
+                            if (curE != null) {
+                                if (curE.moveToFirst()) {
+                                    do {
+                                        ptS.setX(curE.getFloat(curE.getColumnIndex("YZB")));
+                                        ptS.setY(curE.getFloat(curE.getColumnIndex("XZB")));
+                                    }
+                                    while (curE.moveToNext());
+                                }
+
+                                String sql = "update LINE set ZDDH ='" + strTCDH + "' where QDDH = '" + strQDDH + "' and ZDDH = '" + strZDDH + "' and GLDM = '" + CurGraphicClass.getGLDM() + "'";
+                                db.execSQL(sql);
+                                db.close();
+
+                                //更新图面
+                                if (!ptS.isEmpty() && !ptE.isEmpty()) {
+                                    Line line = new Line();
+                                    line.setStart(ptS);
+                                    line.setEnd(ptE);
+                                    polyline = new Polyline();
+                                    polyline.addSegment(line, true);
+
+                                    //修改属性
+                                    Map<String, Object> attributes = sellineslt.get(0).getAttributes();
+                                    Map<String, Object> newattributes = new HashMap<String, Object>();
+
+                                    Iterator<String> iterator = attributes.keySet().iterator();
+                                    while (iterator.hasNext()) {
+                                        String key = iterator.next();
+                                        String value = (String) attributes.get(key);
+                                        if (key.equals("ZDDH")) {
+                                            newattributes.put("ZDDH", strTCDH);
+                                        } else {
+                                            newattributes.put(key, value);
+                                        }
+                                    }
+                                    String[] rgb = CurGraphicClass.getColorRGB().split(",");
+                                    sls = new SimpleLineSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])), 2, SimpleLineSymbol.STYLE.SOLID);
+
+                                    Graphic graphic = new Graphic(polyline, sls, newattributes);
+                                    tmpline.updateGraphic((int) graline.getId(), graphic);
+                                    tmpgralayer.removeAll();
+
+                                    //更新标注
+                                    //注记位置为线中心点计算 注记沿线注记，角度取线的弧度大于90度小于等于180
+                                    double d_CenterX = (ptE.getX() + ptS.getX()) / 2;
+                                    double d_CenterY = (ptE.getY() + ptS.getY()) / 2;
+                                    Point pt = new Point();
+                                    pt.setXY(d_CenterX, d_CenterY);
+                                    Point pt1 = mapView.toScreenPoint(pt);
+                                    int[] selids = tmplineAnno.getGraphicIDs((float) pt1.getX(), (float) pt1.getY(), 20);
+                                    // 如果直线的斜率为k，倾斜角为α，则①当k不存在时，α＝pi/2 ；②当k≥0时，α＝arctank；当k<0时，α＝pi＋arctank.
+                                    double angle = 0;
+                                    if ((Math.abs(ptE.getX() - ptS.getX()) == 0)) {
+                                        angle = Math.PI / 2;
+                                    } else {
+                                        double k = (ptE.getY() - ptS.getY()) / (ptE.getX() - ptS.getX());   //斜率
+                                        if (k >= 0) {
+                                            angle = Math.atan(k);
+                                        } else {
+                                            angle = 2 * Math.PI + Math.atan(k);
+                                        }
+                                    }
+                                    String strZJNR = "";
+                                    if (CurGraphicClass.getGLDM().contains("DL")) {
+                                        //电力标注电压值
+                                        strZJNR = strType + " " + strGJ + " " + strDYZ.toString().trim() + " " + strCZ;
+                                    } else {
+                                        strZJNR = strType + " " + strGJ + " " + strCZ;
+                                    }
+
+                                    TextSymbol tsT = new TextSymbol(16, strZJNR, Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
+                                    tsT.setFontFamily("DroidSansFallback.ttf");
+                                    tsT.setOffsetX(5);
+                                    tsT.setOffsetY(5);
+                                    tsT.setAngle((float) (360 - Math.toDegrees(angle)));
+                                    for (int i = 0; i < selids.length; i++) {
+                                        Graphic gra = tmplineAnno.getGraphic(selids[i]);
+                                        Symbol symbol = gra.getSymbol();
+                                        tmplineAnno.updateGraphic(selids[i], tsT);
+                                        break;
+                                    }
+
+                                }
+                            }
+                        } else if (!strZDDH.equals("") && strQDDH.equals("")) {
+                            //更新管线点号
+                            DBManager.DB_PATH = MainActivity.prjDBpath;
+                            dbManager = new DBManager(MainActivity.this);
+                            db = dbManager.openDatabase();
+
+                            Point ptS = (Point) selpointslt.get(0).getGeometry();
+                            Point ptE = new Point();
+                            Cursor curS = db.rawQuery("SELECT XZB, YZB FROM POINT WHERE WTDH ='" + strZDDH + "' and GLDM = '" + CurGraphicClass.getGLDM() + "'", null);
+                            if (curS != null) {
+                                if (curS.moveToFirst()) {
+                                    do {
+                                        ptE.setX(curS.getFloat(curS.getColumnIndex("YZB")));
+                                        ptE.setY(curS.getFloat(curS.getColumnIndex("XZB")));
+                                    }
+                                    while (curS.moveToNext());
+                                }
+
+                                String sql = "update LINE set QDDH ='" + strTCDH + "' where ZDDH = '" + strZDDH + "' and  QDDH = '" + strQDDH + "' and GLDM = '" + CurGraphicClass.getGLDM() + "'";
+                                db.execSQL(sql);
+
+                                //更新图面
+                                if (!ptS.isEmpty() && !ptE.isEmpty()) {
+                                    Line line = new Line();
+                                    line.setStart(ptS);
+                                    line.setEnd(ptE);
+                                    polyline = new Polyline();
+                                    polyline.addSegment(line, true);
+
+                                    //修改属性
+                                    Map<String, Object> attributes = sellineslt.get(0).getAttributes();
+                                    Map<String, Object> newattributes = new HashMap<String, Object>();
+
+                                    Iterator<String> iterator = attributes.keySet().iterator();
+                                    while (iterator.hasNext()) {
+                                        String key = iterator.next();
+                                        String value = (String) attributes.get(key);
+                                        if (key.equals("QDDH")) {
+                                            newattributes.put("QDDH", strTCDH);
+                                        } else {
+                                            newattributes.put(key, value);
+                                        }
+                                    }
+                                    String[] rgb = CurGraphicClass.getColorRGB().split(",");
+                                    sls = new SimpleLineSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])), 2, SimpleLineSymbol.STYLE.SOLID);
+
+                                    Graphic graphic = new Graphic(polyline, sls, newattributes);
+                                    tmpline.updateGraphic((int) graline.getId(), graphic);
+                                    tmpgralayer.removeAll();
+
+                                    //更新标注
+                                    //注记位置为线中心点计算 注记沿线注记，角度取线的弧度大于90度小于等于180
+                                    double d_CenterX = (ptE.getX() + ptS.getX()) / 2;
+                                    double d_CenterY = (ptE.getY() + ptS.getY()) / 2;
+                                    Point pt = new Point();
+                                    pt.setXY(d_CenterX, d_CenterY);
+                                    Point pt1 = mapView.toScreenPoint(pt);
+                                    int[] selids = tmplineAnno.getGraphicIDs((float) pt1.getX(), (float) pt1.getY(), 20);
+                                    // 如果直线的斜率为k，倾斜角为α，则①当k不存在时，α＝pi/2 ；②当k≥0时，α＝arctank；当k<0时，α＝pi＋arctank.
+                                    double angle = 0;
+                                    if ((Math.abs(ptE.getX() - ptS.getX()) == 0)) {
+                                        angle = Math.PI / 2;
+                                    } else {
+                                        double k = (ptE.getY() - ptS.getY()) / (ptE.getX() - ptS.getX());   //斜率
+                                        if (k >= 0) {
+                                            angle = Math.atan(k);
+                                        } else {
+                                            angle = 2 * Math.PI + Math.atan(k);
+                                        }
+                                    }
+                                    String strZJNR = "";
+                                    if (CurGraphicClass.getGLDM().contains("DL")) {
+                                        //电力标注电压值
+                                        strZJNR = strType + " " + strGJ + " " + strDYZ.toString().trim() + " " + strCZ;
+                                    } else {
+                                        strZJNR = strType + " " + strGJ + " " + strCZ;
+                                    }
+
+                                    TextSymbol tsT = new TextSymbol(16, strZJNR, Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
+                                    tsT.setFontFamily("DroidSansFallback.ttf");
+                                    tsT.setOffsetX(5);
+                                    tsT.setOffsetY(5);
+                                    tsT.setAngle((float) (360 - Math.toDegrees(angle)));
+                                    for (int i = 0; i < selids.length; i++) {
+                                        Graphic gra = tmplineAnno.getGraphic(selids[i]);
+                                        Symbol symbol = gra.getSymbol();
+                                        tmplineAnno.updateGraphic(selids[i], tsT);
+                                        break;
+                                    }
+                                }
+                            }
+                            db.close();
+                        }
+                        Toast toast = Toast.makeText(MainActivity.this, "管线更新成功！", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, -100);
+                        toast.show();
+
+                    }
+
+                    return true;
+                }
+            });
+        } catch (
+                Exception e
+                )
+
+        {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(e.getMessage())
+                    .setPositiveButton("确定", null)
+                    .show();
+        }
+
+
+    }
+
+    void SplitLine() {
+        try {
+            mapView.setOnSingleTapListener(null);
+            mapView.setOnLongPressListener(null);
+
+            mapView.setOnSingleTapListener(new OnSingleTapListener() {
+                                               public void onSingleTap(float x, float y) {
+                                                   for (int m = 0; m < GraphicClasslst.size(); m++) {
+                                                       _GraphicClass = GraphicClasslst.get(m);
+                                                       tmp = GetGraphicLayerbyName(_GraphicClass.getGDAliases());
+                                                       tmpline = GetGraphicLayerbyName(_GraphicClass.getGXAliases());
+                                                       tmpAnno = GetGraphicLayerbyName(_GraphicClass.getGDAliases() + "注记");
+                                                       tmplineAnno = GetGraphicLayerbyName(_GraphicClass.getGXAliases() + "注记");
+                                                       sellineslt = new ArrayList<Graphic>();
+                                                       selpointslt = new ArrayList<Graphic>();
+                                                       if (sellineslt.size() == 0) {
+                                                           int[] selids = tmpline.getGraphicIDs(x, y, 20);
+                                                           if (selids.length != 0) {
+                                                               for (int i = 0; i < selids.length; i++) {
+                                                                   Graphic graline = tmpline.getGraphic(selids[i]);
+                                                                   if (graline.getAttributeNames().length > 0) {
+                                                                       sellineslt.add(graline);
+                                                                       SimpleLineSymbol sls1 = new SimpleLineSymbol(Color.argb(255, 0, 255, 255), 8, SimpleLineSymbol.STYLE.SOLID);
+                                                                       Graphic graline1 = new Graphic(graline.getGeometry(), sls1);
+                                                                       tmpgralayer.addGraphic(graline1);
+
+                                                                       Point pt = mapView.toMapPoint(x, y);
+                                                                       SimpleMarkerSymbol sms1 = new SimpleMarkerSymbol(Color.argb(255, 255, 0, 0), 15, SimpleMarkerSymbol.STYLE.CROSS);
+                                                                       Graphic grapoint = new Graphic(pt, sms1);
+                                                                       selpointslt.add(grapoint);
+                                                                       tmpgralayer.addGraphic(grapoint);
+                                                                       break;
+                                                                   }
+                                                               }
+                                                               break;
+                                                           }
+                                                       }
+                                                   }
+
+                                                   if (sellineslt.size() == 1 && selpointslt.size() == 1) {
+                                                       AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                                                       builder.setTitle("确定要打断？");
+                                                       builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                                   public void onClick(DialogInterface dialog, int whichButton) {
+                                                                       //根据打断点所在位置 创建两条线，并复制属性信息
+                                                                       Graphic grapoint = selpointslt.get(0);
+                                                                       Graphic graline = sellineslt.get(0);
+                                                                       long ilineid = graline.getId();
+                                                                       Point pt = (Point) grapoint.getGeometry();
+                                                                       Polyline polyline0 = (Polyline) graline.getGeometry();
+                                                                       Point ptS = polyline0.getPoint(0);
+                                                                       Point ptE = polyline0.getPoint(1);
+
+                                                                       Line line1 = new Line();
+                                                                       line1.setStart(ptS);
+                                                                       line1.setEnd(pt);
+                                                                       Polyline polyline1 = new Polyline();
+                                                                       polyline1.addSegment(line1, true);
+
+                                                                       Line line2 = new Line();
+                                                                       line2.setStart(pt);
+                                                                       line2.setEnd(ptE);
+                                                                       Polyline polyline2 = new Polyline();
+                                                                       polyline2.addSegment(line2, true);
+
+                                                                       //创建第一条线
+                                                                       String strQDDH = sellineslt.get(0).getAttributeValue("QDDH").toString().trim();
+                                                                       String strZDDH = sellineslt.get(0).getAttributeValue("ZDDH").toString().trim();
+                                                                       String strQDMS = sellineslt.get(0).getAttributeValue("QDMS").toString().trim();
+                                                                       String strZDMS = sellineslt.get(0).getAttributeValue("ZDMS").toString().trim();
+                                                                       String strMSLX = sellineslt.get(0).getAttributeValue("MSLX").toString().trim();
+                                                                       String strGJ = sellineslt.get(0).getAttributeValue("GJ").toString().trim();
+                                                                       String strCZ = sellineslt.get(0).getAttributeValue("CZ").toString().trim();
+                                                                       String strType = _GraphicClass.getTYPE().toString();
+                                                                       String strDYZ = "";
+                                                                       String strZKS = "";
+                                                                       String strZYKS = "";
+                                                                       String strDLTS = "";
+                                                                       if (strType.startsWith("DL_")) {
+                                                                           strDYZ = sellineslt.get(0).getAttributeValue("DYZ").toString().trim();
+
+                                                                       }
+                                                                       String strYL = "";
+                                                                       if (strType.startsWith("GY_") || strType.startsWith("RQ_") || strType.startsWith("PS_")) {
+                                                                           strYL = sellineslt.get(0).getAttributeValue("YL").toString().trim();
+                                                                       }
+                                                                       if (strType.startsWith("DL_") || strType.startsWith("XX_") || strType.startsWith("ZH_")) {
+                                                                           strZKS = sellineslt.get(0).getAttributeValue("ZKS").toString().trim();
+                                                                           strZYKS = sellineslt.get(0).getAttributeValue("ZYKS").toString().trim();
+                                                                           strDLTS = sellineslt.get(0).getAttributeValue("DLTS").toString().trim();
+                                                                       }
+                                                                       String strLX = "";
+                                                                       if (strType.contains("PS_")) {
+                                                                           strLX = sellineslt.get(0).getAttributeValue("LX").toString().trim();
+                                                                       }
+                                                                       String strBHCZ = sellineslt.get(0).getAttributeValue("BHCZ").toString().trim();
+                                                                       String strJSND = sellineslt.get(0).getAttributeValue("JSND").toString().trim();
+                                                                       String strQSDW = sellineslt.get(0).getAttributeValue("QSDW").toString().trim();
+                                                                       String strBZ = sellineslt.get(0).getAttributeValue("BZ").toString().trim();
+                                                                       final ContentValues values1 = new ContentValues();
+                                                                       Map<String, Object> attributes1 = new HashMap<String, Object>();
+                                                                       values1.put("QDDH", strQDDH);
+                                                                       attributes1.put("QDDH", strQDDH);
+                                                                       values1.put("ZDDH", strQDDH + "-1");
+                                                                       attributes1.put("ZDDH", strQDDH + "-1");
+                                                                       if (!strQDMS.equals("")) {
+                                                                           values1.put("QDMS", Double.valueOf(strQDMS));
+                                                                           attributes1.put("QDMS", strQDMS);
+                                                                       } else {
+                                                                           attributes1.put("QDMS", "");
+                                                                       }
+                                                                       if (!strQDMS.equals("")) {
+                                                                           values1.put("ZDMS", Double.valueOf(strZDMS));
+                                                                           attributes1.put("ZDMS", strZDMS);
+                                                                       } else {
+                                                                           attributes1.put("ZDMS", "");
+                                                                       }
+                                                                       values1.put("MSLX", strMSLX);
+                                                                       attributes1.put("MSLX", strMSLX);
+                                                                       values1.put("CZ", strCZ);
+                                                                       attributes1.put("CZ", strCZ);
+                                                                       values1.put("GJ", strGJ);
+                                                                       attributes1.put("GJ", strGJ);
+                                                                       if (strType.startsWith("DL_")) {
+                                                                           values1.put("DYZ", strDYZ);
+                                                                           attributes1.put("DYZ", strDYZ);
+                                                                       }
+                                                                       if (strType.startsWith("GY_") || strType.startsWith("RQ_") || strType.startsWith("PS_")) {
+                                                                           values1.put("YL", strYL);
+                                                                           attributes1.put("YL", strYL);
+                                                                       }
+                                                                       if (strType.startsWith("PS_")) {
+                                                                           values1.put("LX", strLX);
+                                                                           attributes1.put("LX", strLX);
+                                                                       }
+                                                                       values1.put("BHCZ", strBHCZ);
+                                                                       attributes1.put("BHCZ", strBHCZ);
+                                                                       if (strType.startsWith("DL_") || strType.startsWith("XX_") || strType.startsWith("ZH_")) {
+                                                                           if (!strZKS.equals("")) {
+                                                                               values1.put("ZKS", Integer.parseInt(strZKS));
+                                                                               attributes1.put("ZKS", strZKS);
+                                                                           } else {
+                                                                               attributes1.put("ZKS", "");
+                                                                           }
+                                                                       }
+                                                                       if (strType.startsWith("DL_") || strType.startsWith("XX_") || strType.startsWith("ZH_")) {
+                                                                           if (!strZYKS.equals("")) {
+                                                                               values1.put("ZYKS", Integer.parseInt(strZYKS));
+                                                                               attributes1.put("ZYKS", strZYKS);
+                                                                           } else {
+                                                                               attributes1.put("ZYKS", "");
+                                                                           }
+                                                                       }
+                                                                       if (strType.startsWith("DL_") || strType.startsWith("XX_") || strType.startsWith("ZH_")) {
+                                                                           values1.put("DLTS", strDLTS);
+                                                                           attributes1.put("DLTS", strDLTS);
+                                                                       }
+                                                                       values1.put("JSND", strJSND);
+                                                                       attributes1.put("JSND", strJSND);
+                                                                       values1.put("QSDW", strQSDW);
+                                                                       attributes1.put("QSDW", strQSDW);
+                                                                       values1.put("BZ", strBZ);
+                                                                       attributes1.put("BZ", strBZ);
+                                                                       attributes1.put("JCQDMS", "");
+                                                                       attributes1.put("JCZDMS", "");
+                                                                       SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                                                       String date = sDateFormat.format(new java.util.Date());
+                                                                       values1.put("TCRQ", date);
+                                                                       attributes1.put("GLDM", _GraphicClass.getGLDM());
+                                                                       values1.put("GLDM", _GraphicClass.getGLDM());
+
+                                                                       //创建第二条线
+                                                                       final ContentValues values2 = new ContentValues();
+                                                                       Map<String, Object> attributes2 = new HashMap<String, Object>();
+                                                                       values2.put("QDDH", strQDDH + "-1");
+                                                                       attributes2.put("QDDH", strQDDH + "-1");
+                                                                       values2.put("ZDDH", strZDDH);
+                                                                       attributes2.put("ZDDH", strZDDH);
+                                                                       if (!strQDMS.equals("")) {
+                                                                           values2.put("QDMS", Double.valueOf(strQDMS));
+                                                                           attributes2.put("QDMS", strQDMS);
+                                                                       } else {
+                                                                           attributes2.put("QDMS", "");
+                                                                       }
+                                                                       if (!strQDMS.equals("")) {
+                                                                           values2.put("ZDMS", Double.valueOf(strZDMS));
+                                                                           attributes2.put("ZDMS", strZDMS);
+                                                                       } else {
+                                                                           attributes2.put("ZDMS", "");
+                                                                       }
+                                                                       values2.put("MSLX", strMSLX);
+                                                                       attributes2.put("MSLX", strMSLX);
+                                                                       values2.put("CZ", strCZ);
+                                                                       attributes2.put("CZ", strCZ);
+                                                                       values2.put("GJ", strGJ);
+                                                                       attributes2.put("GJ", strGJ);
+                                                                       if (strType.startsWith("DL_")) {
+                                                                           values2.put("DYZ", strDYZ);
+                                                                           attributes2.put("DYZ", strDYZ);
+                                                                       }
+                                                                       if (strType.startsWith("GY_") || strType.startsWith("RQ_") || strType.startsWith("PS_")) {
+                                                                           values2.put("YL", strYL);
+                                                                           attributes2.put("YL", strYL);
+                                                                       }
+                                                                       if (strType.startsWith("PS_")) {
+                                                                           values2.put("LX", strLX);
+                                                                           attributes2.put("LX", strLX);
+                                                                       }
+                                                                       values2.put("BHCZ", strBHCZ);
+                                                                       attributes2.put("BHCZ", strBHCZ);
+                                                                       if (strType.startsWith("DL_") || strType.startsWith("XX_") || strType.startsWith("ZH_")) {
+                                                                           if (!strZKS.equals("")) {
+                                                                               values2.put("ZKS", Integer.parseInt(strZKS));
+                                                                               attributes2.put("ZKS", strZKS);
+                                                                           } else {
+                                                                               attributes2.put("ZKS", "");
+                                                                           }
+                                                                       }
+                                                                       if (strType.startsWith("DL_") || strType.startsWith("XX_") || strType.startsWith("ZH_")) {
+                                                                           if (!strZYKS.equals("")) {
+                                                                               values2.put("ZYKS", Integer.parseInt(strZYKS));
+                                                                               attributes2.put("ZYKS", strZYKS);
+                                                                           } else {
+                                                                               attributes2.put("ZYKS", "");
+                                                                           }
+                                                                       }
+                                                                       if (strType.startsWith("DL_") || strType.startsWith("XX_") || strType.startsWith("ZH_")) {
+                                                                           values2.put("DLTS", strDLTS);
+                                                                           attributes2.put("DLTS", strDLTS);
+                                                                       }
+                                                                       values2.put("JSND", strJSND);
+                                                                       attributes2.put("JSND", strJSND);
+                                                                       values2.put("QSDW", strQSDW);
+                                                                       attributes2.put("QSDW", strQSDW);
+                                                                       values2.put("BZ", strBZ);
+                                                                       attributes2.put("BZ", strBZ);
+                                                                       attributes2.put("JCQDMS", "");
+                                                                       attributes2.put("JCZDMS", "");
+                                                                       values2.put("TCRQ", date);
+                                                                       attributes2.put("GLDM", _GraphicClass.getGLDM());
+                                                                       values2.put("GLDM", _GraphicClass.getGLDM());
+
+
+                                                                       //创建点
+                                                                       final ContentValues values = new ContentValues();
+                                                                       Map<String, Object> attributes = new HashMap<String, Object>();
+                                                                       values.put("WTDH", strQDDH + "-1");
+                                                                       attributes.put("WTDH", strQDDH + "-1");
+                                                                       values.put("CLDH", "");
+                                                                       attributes.put("CLDH", "");
+                                                                       values.put("XZB", pt.getY());
+                                                                       values.put("YZB", pt.getX());
+                                                                       values.put("DMGC", "");
+                                                                       attributes.put("DMGC", "");
+                                                                       values.put("TZD", "");
+                                                                       attributes.put("TZD", "");
+                                                                       values.put("FSW", "");
+                                                                       attributes.put("FSW", "");
+                                                                       values.put("JSDM", "");
+                                                                       attributes.put("JSDM", "");
+                                                                       values.put("JS", "");
+                                                                       attributes.put("JS", "");
+                                                                       values.put("JGXZ", "");
+                                                                       attributes.put("JGXZ", "");
+                                                                       values.put("JGCZ", "");
+                                                                       attributes.put("JGCZ", "");
+                                                                       values.put("JGC", "");
+                                                                       attributes.put("JGC", "");
+                                                                       values.put("JGK", "");
+                                                                       attributes.put("JGK", "");
+                                                                       values.put("JGZJ", "");
+                                                                       attributes.put("JGZJ", "");
+                                                                       values.put("JXJCZ", "");
+                                                                       attributes.put("JXJCZ", "");
+                                                                       values.put("JBS", "");
+                                                                       attributes.put("JBS", "");
+                                                                       attributes.put("JSZJ", "");
+                                                                       values.put("QSDW", strQSDW);
+                                                                       attributes.put("QSDW", strQSDW);
+                                                                       values.put("BZ", "");
+                                                                       attributes.put("BZ", "");
+                                                                       values.put("SFCJ", "否");
+                                                                       attributes.put("SFCJ", "否");
+                                                                       values.put("TCRQ", date);
+                                                                       attributes.put("GLDM", _GraphicClass.getGLDM());
+                                                                       values.put("GLDM", _GraphicClass.getGLDM());
+
+                                                                       DBManager.DB_PATH = prjDBpath;
+                                                                       dbManager = new DBManager(MainActivity.this);
+                                                                       db = dbManager.openDatabase();
+
+                                                                       db.insert("LINE", "QDDH", values1);
+                                                                       db.insert("LINE", "QDDH", values2);
+                                                                       db.insert("POINT", "WTDH", values);
+                                                                       String sql = "DELETE FROM LINE WHERE QDDH ='" + strQDDH + "' and ZDDH ='" + strZDDH + "' and GLDM = '" + _GraphicClass.getGLDM() + "'";
+                                                                       DelFromDB(sql);
+                                                                       db.close();
+
+                                                                       double d_CenterX = (ptE.getX() + ptS.getX()) / 2;
+                                                                       double d_CenterY = (ptE.getY() + ptS.getY()) / 2;
+                                                                       Point pt0 = new Point();
+                                                                       pt0.setXY(d_CenterX, d_CenterY);
+                                                                       Point pt1 = mapView.toScreenPoint(pt0);
+                                                                       int[] selAnnoids = tmplineAnno.getGraphicIDs((float) pt1.getX(), (float) pt1.getY(), 20);
+                                                                       //删除注记
+                                                                       if (selAnnoids.length != 0) {
+                                                                           tmplineAnno.removeGraphic(selAnnoids[0]);
+                                                                       }
+                                                                       //删除原有管线
+                                                                       tmpline.removeGraphic((int) ilineid);
+                                                                       //创建新增管线
+                                                                       String[] rgb = _GraphicClass.getColorRGB().split(",");
+                                                                       sls = new SimpleLineSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])), 2, SimpleLineSymbol.STYLE.SOLID);
+                                                                       Graphic graphic1 = new Graphic(polyline1, sls, attributes1);
+                                                                       tmpline.addGraphic(graphic1);
+                                                                       Graphic graphic2 = new Graphic(polyline2, sls, attributes2);
+                                                                       tmpline.addGraphic(graphic2);
+
+                                                                       //创建管线注记
+                                                                       //添加标注
+                                                                       //注记位置为线中心点计算 注记沿线注记，角度取线的弧度大于90度小于等于180
+                                                                       double d_CenterX1 = (ptS.getX() + pt.getX()) / 2;
+                                                                       double d_CenterY1 = (ptS.getY() + pt.getY()) / 2;
+                                                                       Point pt11 = new Point();
+                                                                       pt11.setXY(d_CenterX1, d_CenterY1);
+
+                                                                       // 如果直线的斜率为k，倾斜角为α，则①当k不存在时，α＝pi/2 ；②当k≥0时，α＝arctank；当k<0时，α＝pi＋arctank.
+                                                                       double angle = 0;
+                                                                       if ((Math.abs(pt.getX() - ptS.getX()) == 0)) {
+                                                                           angle = Math.PI / 2;
+                                                                       } else {
+                                                                           double k = (pt.getY() - ptS.getY()) / (pt.getX() - ptS.getX());   //斜率
+                                                                           if (k >= 0) {
+                                                                               angle = Math.atan(k);
+                                                                           } else {
+                                                                               angle = 2 * Math.PI + Math.atan(k);
+                                                                           }
+                                                                       }
+                                                                       String strZJNR = "";
+                                                                       if (_GraphicClass.getGXAliases().contains("DL")) {
+                                                                           //电力标注电压值
+                                                                           strZJNR = _GraphicClass.getTYPE() + " " + strGJ + " " + strDYZ + " " + strCZ;
+                                                                       } else {
+                                                                           strZJNR = _GraphicClass.getTYPE() + " " + strGJ + " " + strCZ;
+                                                                       }
+                                                                       TextSymbol tsT1 = new TextSymbol(16, strZJNR, Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
+                                                                       tsT1.setFontFamily("DroidSansFallback.ttf");
+                                                                       tsT1.setOffsetX(5);
+                                                                       tsT1.setOffsetY(5);
+                                                                       tsT1.setAngle((float) (360 - Math.toDegrees(angle)));
+                                                                       Graphic graphicT1 = new Graphic(pt11, tsT1);
+                                                                       tmplineAnno.addGraphic(graphicT1);
+
+                                                                       double d_CenterX2 = (ptE.getX() + pt.getX()) / 2;
+                                                                       double d_CenterY2 = (ptE.getY() + pt.getY()) / 2;
+                                                                       Point pt12 = new Point();
+                                                                       pt12.setXY(d_CenterX2, d_CenterY2);
+
+                                                                       // 如果直线的斜率为k，倾斜角为α，则①当k不存在时，α＝pi/2 ；②当k≥0时，α＝arctank；当k<0时，α＝pi＋arctank.
+                                                                       angle = 0;
+                                                                       if ((Math.abs(ptE.getX() - pt.getX()) == 0)) {
+                                                                           angle = Math.PI / 2;
+                                                                       } else {
+                                                                           double k = (ptE.getY() - pt.getY()) / (ptE.getX() - pt.getX());   //斜率
+                                                                           if (k >= 0) {
+                                                                               angle = Math.atan(k);
+                                                                           } else {
+                                                                               angle = 2 * Math.PI + Math.atan(k);
+                                                                           }
+                                                                       }
+                                                                       TextSymbol tsT2 = new TextSymbol(16, strZJNR, Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
+                                                                       tsT2.setFontFamily("DroidSansFallback.ttf");
+                                                                       tsT2.setOffsetX(5);
+                                                                       tsT2.setOffsetY(5);
+                                                                       tsT2.setAngle((float) (360 - Math.toDegrees(angle)));
+                                                                       Graphic graphicT2 = new Graphic(pt12, tsT2);
+                                                                       tmplineAnno.addGraphic(graphicT2);
+
+
+                                                                       //创建新增管点
+                                                                       String strImgName = ImgNameList.get(ImgTypeList.indexOf(_GraphicClass.getGDIMG() + "-" + "直线点"));
+                                                                       int imgId = getResources().getIdentifier(strImgName, "drawable", getPackageName());
+                                                                       Drawable image = getResources().getDrawable(imgId);
+                                                                       PictureMarkerSymbol sms = new PictureMarkerSymbol(image);
+                                                                       Graphic graphic0 = new Graphic(pt, sms, attributes);
+                                                                       tmp.addGraphic(graphic0);
+                                                                       if (image != null) {
+                                                                           image.setCallback(null);
+                                                                           sms = null;
+                                                                           graphic0 = null;
+                                                                       }
+
+                                                                       //创建管点注记
+                                                                       TextSymbol tsT = new TextSymbol(16, strQDDH + "-1", Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
+                                                                       tsT.setOffsetX(5);
+                                                                       tsT.setOffsetY(5);
+                                                                       Graphic graphicT = new Graphic(pt, tsT);
+                                                                       tmpAnno.addGraphic(graphicT);
+
+                                                                       Toast toast = Toast.makeText(MainActivity.this, "打断成功", Toast.LENGTH_SHORT);
+                                                                       toast.setGravity(Gravity.TOP | Gravity.CENTER, -200, 0);
+                                                                       toast.show();
+
+                                                                       selpointslt.clear();
+                                                                       sellineslt.clear();
+                                                                       tmpgralayer.removeAll();
+                                                                   }
+                                                               }
+
+                                                       );
+
+                                                       builder.setNegativeButton("取消", new DialogInterface.OnClickListener()
+
+                                                               {
+                                                                   public void onClick(DialogInterface dialog, int whichButton) {
+                                                                       selpointslt.clear();
+                                                                       sellineslt.clear();
+                                                                       tmpgralayer.removeAll();
+                                                                   }
+                                                               }
+
+                                                       );
+                                                       builder.create().
+
+                                                               show();
+
+                                                   }
+
+                                               }
+                                           }
+
+            );
+        } catch (
+                Exception e
+                )
+
+        {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(e.getMessage())
+                    .setPositiveButton("确定", null)
+                    .show();
+            selpointslt.clear();
+            sellineslt.clear();
+            tmpgralayer.removeAll();
+        }
+    }
+
+
+    void AddYLLine() {
+        try {
+            mapView.setOnSingleTapListener(null);
+            mapView.setOnLongPressListener(null);
+            blndraw = false;
+
+            selpointslt = new ArrayList<Graphic>();
+            mapView.setOnSingleTapListener(new OnSingleTapListener() {
+                public void onSingleTap(float x, float y) {
+                    if (selpointslt.size() == 0) {
+                        //先选择一个点
+                        for (int m = 0; m < GraphicClasslst.size(); m++) {
+                            _GraphicClass = GraphicClasslst.get(m);
+                            tmp = GetGraphicLayerbyName(_GraphicClass.getGDAliases());
+                            tmpAnno = GetGraphicLayerbyName(_GraphicClass.getGDAliases() + "注记");
+                            tmpline = GetGraphicLayerbyName(_GraphicClass.getGXAliases());
+                            tmplineAnno = GetGraphicLayerbyName(_GraphicClass.getGXAliases() + "注记");
+                            if (selpointslt.size() != 2) {
+                                int[] selids = tmp.getGraphicIDs(x, y, 20);
+                                if (selids.length != 0) {
+                                    Graphic graPoint = tmp.getGraphic(selids[0]);
+                                    selpointslt.add(graPoint);
+                                    Toast toast = Toast.makeText(MainActivity.this, "已选择第" + String.valueOf(selpointslt.size()) + "个点", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, -100);
+                                    toast.show();
+                                    break;
+                                }
+                            }
+                        }
+                    } else if (selpointslt.size() == 1) {
+                        //绘制另一端点
+                        Point pt = mapView.toMapPoint(x, y);
+                        double dblX = pt.getY();
+                        double dblY = pt.getX();
+                        DecimalFormat df = new DecimalFormat("#.###");
+                        String strTCDH = df.format(dblX) + "-" + df.format(dblY);
+
+                        blndraw = true;
+
+                        SimpleMarkerSymbol sms1 = new SimpleMarkerSymbol(Color.argb(255, 156, 156, 156), 12, SimpleMarkerSymbol.STYLE.CIRCLE);
+                        Graphic graphic0 = new Graphic(pt, sms1);
+                        tmpgralayer.addGraphic(graphic0);
+
+                        String[] rgb = _GraphicClass.getColorRGB().split(",");
+                        sls = new SimpleLineSymbol(Color.argb(255, 156, 156, 156), 2, SimpleLineSymbol.STYLE.SOLID);
+
+                        Line line = new Line();
+                        line.setStart((Point) selpointslt.get(0).getGeometry());
+                        line.setEnd(pt);
+                        Polyline poly = new Polyline();
+                        poly.addSegment(line, true);
+                        Graphic graphic = new Graphic(poly, sls);
+                        tmpgralayer.addGraphic(graphic);
+                        polyline = poly;
+
+                        line_class._qddh = selpointslt.get(0).getAttributeValue("WTDH").toString();
+                        line_class._zddh = strTCDH;
+                        line_class.TableName = _GraphicClass.getGLDM();
+                        line_class.TableNameCN = _GraphicClass.getGXAliases();
+                        line_class._graphicID = graphic.getId();
+                        line_class.blnEdit = false;
+                        line_class.GXgralayer = tmpline;
+                        line_class.GXAnnogralayer = tmplineAnno;
+                        line_class.GDgralayer = tmp;
+                        line_class.GDAnnogralayer = tmpAnno;
+                        line_class.strGDImg = _GraphicClass.getGDIMG();
+                        line_class.ColorRGB = _GraphicClass.getColorRGB();
+                        line_class.TYPE = _GraphicClass.getTYPE();
+
+
+                        Intent lineintent = new Intent();
+                        lineintent.setClass(MainActivity.this, line_class.class);
+                        startActivityForResult(lineintent, 0);
+                        selpointslt = new ArrayList<Graphic>();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            new AlertDialog.Builder(this)
+                    .setTitle("提示")
+                    .setMessage(e.getMessage())
+                    .setPositiveButton("确定", null)
+                    .show();
+        }
+
+    }
 
     void ModifyQuestion() {
         try {

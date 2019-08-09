@@ -138,158 +138,182 @@ public class point_class extends AppCompatActivity implements OnClickListener {
     };
 
     private void iniEvents() {
-//        BT = (TextView) findViewById(R.id.btText);
-//        BT.setText(TableNameCN + "属性");
+        BT = (TextView) findViewById(R.id.btText);
+        BT.setText(TableNameCN + "属性");
 
-       // TCDH = (EditText) findViewById(R.id.tcdhText);
-//        FSW = (Spinner) findViewById(R.id.fswText);
-//        TZD = (Spinner) findViewById(R.id.tzdText);
-//        GTLX = (EditText) findViewById(R.id.gtlxText);
+        TCDH = (EditText) findViewById(R.id.tcdhText);
+        FSW = (Spinner) findViewById(R.id.fswText);
+        TZD = (Spinner) findViewById(R.id.tzdText);
+        GTLX = (EditText) findViewById(R.id.gtlxText);
         XG=(EditText) findViewById(R.id.xgText);
         BZ = (EditText) findViewById(R.id.bzText);
-//        XGLayout=(LinearLayout)findViewById(R.id.xgLayout);
-//
-//        if(TableNameCN=="供电") {
-//            XGLayout.setVisibility(View.GONE);
-//        }
-//        else if(TableNameCN=="通讯"){
-//            XGLayout.setVisibility(View.VISIBLE);
-//        }
-//
-//
-//        if(MainActivity.strWorkMode=="编辑") {
-//            TCDH.setFocusable(true);
-//            TZD.setFocusable(true);
-//            FSW.setFocusable(true);
-//            GTLX.setFocusable(true);
-//            XG.setFocusable(true);
-//            BZ.setFocusable(true);
-//        }
-//        else{
-//            TCDH.setFocusable(false);
-//            TZD.setFocusable(false);
-//            FSW.setFocusable(false);
-//            GTLX.setFocusable(false);
-//            XG.setFocusable(false);
-//            BZ.setFocusable(false);
-//        }
-//
-//        //特征点    供电：电力-直线点、电力-拐点、电力-分支、电力-出入地点、电力-入户、电力-断头   通信：信息与通信-直线点、信息与通信-拐点、信息与通信-分支、信息与通信-出入地点、信息与通信-入户
-//        if (TableName.startsWith("XX_")) {
-//            String[] TZDList = {"", "直线点", "拐点", "分支", "出入地点", "入户"};
-//            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TZDList);
-//            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            TZD.setAdapter(adapterTZD);
-//            TZD.setSelection(0, true);
-//        } else if (TableName.startsWith("DL_")) {
-//            String[] TZDList = {"", "直线点", "拐点", "分支", "出入地点", "入户" , "断头" };
-//            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TZDList);
-//            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            TZD.setAdapter(adapterTZD);
-//            TZD.setSelection(0, true);
-//        }  else {
-//            String[] FSWList = {"", "直线点"};
-//            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
-//            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            TZD.setAdapter(adapterTZD);
-//            TZD.setSelection(0, true);
-//        }
-//
-//        //附属物 供电：电力-变压器、电力-电线杆、电力-铁塔、电力-钢管杆、电力-变电所  通信：信息与通信-线杆
-//       if (TableName.startsWith("XX_")) {
-//            String[] FSWList = {"", "线杆"};
-//            adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
-//           adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            FSW.setAdapter(adapterFSW);
-//            FSW.setSelection(0, true);
-//        } else if (TableName.startsWith("DL_")) {
-//            String[] FSWList = {"", "变压器", "电线杆", "铁塔", "钢管杆", "变电所", "分线箱" };
-//           adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
-//           adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            FSW.setAdapter(adapterFSW);
-//            FSW.setSelection(0, true);
-//        } else {
-//            String[] FSWList = {"", "线杆"};
-//           adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
-//           adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            FSW.setAdapter(adapterFSW);
-//            FSW.setSelection(0, true);
-//        }
+        XGLayout=(LinearLayout)findViewById(R.id.xgLayout);
+
+        if(TableNameCN=="供电") {
+            XGLayout.setVisibility(View.GONE);
+        }
+        else if(TableNameCN=="通讯"){
+            XGLayout.setVisibility(View.VISIBLE);
+        }
+
+
+        if(MainActivity.strWorkMode=="编辑") {
+            TCDH.setFocusable(true);
+            TZD.setFocusable(true);
+            FSW.setFocusable(true);
+            GTLX.setFocusable(true);
+            XG.setFocusable(true);
+            BZ.setFocusable(true);
+        }
+        else{
+            TCDH.setFocusable(false);
+            TZD.setFocusable(false);
+            FSW.setFocusable(false);
+            GTLX.setFocusable(false);
+            XG.setFocusable(false);
+            BZ.setFocusable(false);
+        }
+
+        //特征点    供电：电力-直线点、电力-拐点、电力-分支、电力-出入地点、电力-入户、电力-断头   通信：信息与通信-直线点、信息与通信-拐点、信息与通信-分支、信息与通信-出入地点、信息与通信-入户
+        if (TableName.startsWith("XX_")) {
+            String[] TZDList = {"", "直线点", "拐点", "分支", "出入地点", "入户"};
+            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TZDList);
+            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            TZD.setAdapter(adapterTZD);
+            TZD.setSelection(0, true);
+        } else if (TableName.startsWith("DL_")) {
+            String[] TZDList = {"", "直线点", "拐点", "分支", "出入地点", "入户" , "断头" };
+            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TZDList);
+            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            TZD.setAdapter(adapterTZD);
+            TZD.setSelection(0, true);
+        }  else {
+            String[] FSWList = {"", "直线点"};
+            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
+            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            TZD.setAdapter(adapterTZD);
+            TZD.setSelection(0, true);
+        }
+
+        //附属物 供电：电力-变压器、电力-电线杆、电力-铁塔、电力-钢管杆、电力-变电所  通信：信息与通信-线杆
+       if (TableName.startsWith("XX_")) {
+            String[] FSWList = {"", "线杆"};
+            adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
+           adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            FSW.setAdapter(adapterFSW);
+            FSW.setSelection(0, true);
+        } else if (TableName.startsWith("DL_")) {
+            String[] FSWList = {"", "变压器", "电线杆", "铁塔", "钢管杆", "变电所", "分线箱" };
+           adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
+           adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            FSW.setAdapter(adapterFSW);
+            FSW.setSelection(0, true);
+        } else {
+            String[] FSWList = {"", "线杆"};
+           adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
+           adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            FSW.setAdapter(adapterFSW);
+            FSW.setSelection(0, true);
+        }
 
     }
 
     private void iniEventsEdit() {
 
-       // BT = (TextView) findViewById(R.id.btText);
-       // BT.setText(TableNameCN + "属性");
+        BT = (TextView) findViewById(R.id.btText);
+        BT.setText(TableNameCN + "属性");
 
-       // TCDH = (EditText) findViewById(R.id.tcdhText);
-//        FSW = (Spinner) findViewById(R.id.fswText);
-//        TZD = (Spinner) findViewById(R.id.tzdText);
-//        GTLX = (EditText) findViewById(R.id.gtlxText);
+        TCDH = (EditText) findViewById(R.id.tcdhText);
+        FSW = (Spinner) findViewById(R.id.fswText);
+        TZD = (Spinner) findViewById(R.id.tzdText);
+        GTLX = (EditText) findViewById(R.id.gtlxText);
         XG=(EditText) findViewById(R.id.xgText);
         BZ = (EditText) findViewById(R.id.bzText);
-//        XGLayout=(LinearLayout)findViewById(R.id.xgLayout);
+        XGLayout=(LinearLayout)findViewById(R.id.xgLayout);
+
+        if(TableNameCN=="供电") {
+            XGLayout.setVisibility(View.GONE);
+        }
+        else if(TableNameCN=="通讯"){
+            XGLayout.setVisibility(View.VISIBLE);
+        }
+
+        if(MainActivity.strWorkMode=="编辑") {
+            TCDH.setFocusable(true);
+            FSW.setFocusable(true);
+            TZD.setFocusable(true);
+            GTLX.setFocusable(true);
+            XG.setFocusable(true);
+            BZ.setFocusable(true);
+        }
+        else{
+            TCDH.setFocusable(false);
+            FSW.setFocusable(false);
+            TZD.setFocusable(false);
+            GTLX.setFocusable(false);
+            XG.setFocusable(false);
+            BZ.setFocusable(false);
+        }
 
 
-//        TCDH.setText(_tcdh);
-//        GTLX.setText(_gtlx);
-//        XG.setText(_xg);
-//        BZ.setText(_bz);
+        TCDH.setText(_tcdh);
+        GTLX.setText(_gtlx);
+        XG.setText(_xg);
+        BZ.setText(_bz);
 
-//        //特征点
-//        if (TableName.startsWith("XX_")) {
-//            String[] TZDList = {"", "直线点", "拐点", "分支", "出入地点", "入户", "断头"};
-//            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TZDList);
-//            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            TZD.setAdapter(adapterTZD);
-//
-//            for (int i = 0; i < TZDList.length; i++) {
-//                if (TZDList[i].toString().equals(_tzd)) {
-//                    TZD.setSelection(i, true);
-//                    break;
-//                }
-//            }
-//        } else if (TableName.startsWith("DL_")) {
-//            String[] TZDList = {"",  "直线点", "拐点", "分支", "出入地点", "入户" , "断头"};
-//            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TZDList);
-//            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            TZD.setAdapter(adapterTZD);
-//
-//            for (int i = 0; i < TZDList.length; i++) {
-//                if (TZDList[i].toString().equals(_tzd)) {
-//                    TZD.setSelection(i, true);
-//                    break;
-//                }
-//            }
-//        }
-//
-//        //附属物
-//        if (TableName.startsWith("XX_")) {
-//            String[] FSWList = {"", "线杆"};
-//            adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
-//            adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            FSW.setAdapter(adapterFSW);
-//
-//            for (int i = 0; i < FSWList.length; i++) {
-//                if (FSWList[i].toString().equals(_fsw)) {
-//                    FSW.setSelection(i, true);
-//                    break;
-//                }
-//            }
-//        } else if (TableName.startsWith("DL_")) {
-//            String[] FSWList = {"", "变压器", "电线杆", "铁塔", "钢管杆", "变电所", "分线箱"};
-//            adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
-//            adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            FSW.setAdapter(adapterFSW);
-//
-//            for (int i = 0; i < FSWList.length; i++) {
-//                if (FSWList[i].toString().equals(_fsw)) {
-//                    FSW.setSelection(i, true);
-//                    break;
-//                }
-//            }
-//        }
+        //特征点
+        if (TableName.startsWith("XX_")) {
+            String[] TZDList = {"", "直线点", "拐点", "分支", "出入地点", "入户", "断头"};
+            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TZDList);
+            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            TZD.setAdapter(adapterTZD);
+
+            for (int i = 0; i < TZDList.length; i++) {
+                if (TZDList[i].toString().equals(_tzd)) {
+                    TZD.setSelection(i, true);
+                    break;
+                }
+            }
+        } else if (TableName.startsWith("DL_")) {
+            String[] TZDList = {"",  "直线点", "拐点", "分支", "出入地点", "入户" , "断头"};
+            adapterTZD = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TZDList);
+            adapterTZD.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            TZD.setAdapter(adapterTZD);
+
+            for (int i = 0; i < TZDList.length; i++) {
+                if (TZDList[i].toString().equals(_tzd)) {
+                    TZD.setSelection(i, true);
+                    break;
+                }
+            }
+        }
+
+        //附属物
+        if (TableName.startsWith("XX_")) {
+            String[] FSWList = {"", "线杆"};
+            adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
+            adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            FSW.setAdapter(adapterFSW);
+
+            for (int i = 0; i < FSWList.length; i++) {
+                if (FSWList[i].toString().equals(_fsw)) {
+                    FSW.setSelection(i, true);
+                    break;
+                }
+            }
+        } else if (TableName.startsWith("DL_")) {
+            String[] FSWList = {"", "变压器", "电线杆", "铁塔", "钢管杆", "变电所", "分线箱"};
+            adapterFSW = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, FSWList);
+            adapterFSW.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            FSW.setAdapter(adapterFSW);
+
+            for (int i = 0; i < FSWList.length; i++) {
+                if (FSWList[i].toString().equals(_fsw)) {
+                    FSW.setSelection(i, true);
+                    break;
+                }
+            }
+        }
 
     }
 

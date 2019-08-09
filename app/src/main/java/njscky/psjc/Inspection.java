@@ -1,8 +1,5 @@
 package njscky.psjc;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,13 +50,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.esri.android.map.GraphicsLayer;
-import com.esri.core.geometry.Point;
-import com.esri.core.map.Graphic;
-import com.esri.core.symbol.SimpleMarkerSymbol;
-import com.esri.core.symbol.Symbol;
-import com.esri.core.symbol.TextSymbol;
-
 import njscky.psjc.activity.AlbumActivity;
 import njscky.psjc.activity.GalleryActivity;
 import njscky.psjc.util.Bimp;
@@ -82,7 +72,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -92,12 +81,6 @@ import java.util.Map;
 public class Inspection extends AppCompatActivity implements View.OnClickListener {
 
     public static String _gddh;
-    SQLiteDatabase db = null;
-    DBManager dbManager = null;
-    public static GraphicsLayer GDAnnogralayer;
-    public static GraphicsLayer GDgralayer;
-    public static Point pp;
-    public static Graphic gra;
 
     private Spinner spinner;
     private ArrayAdapter<String> adapterSJLB;
@@ -109,12 +92,11 @@ public class Inspection extends AppCompatActivity implements View.OnClickListene
     private LinearLayout ll_popup;
     public static Bitmap bimap;
 
-    private EditText txtNewJCJBH;
     private EditText txtWZSM;
     private EditText txtSJMS;
     private TextView txtTitle;
 
-    String ColorRGB = "76,0,0";
+
     String[] SJLBList = {"现场作业", "清淤前", "清淤后"};
     String[] SJLBBHList = {"01", "02", "03"};
     String strEventCode = "";
@@ -140,9 +122,8 @@ public class Inspection extends AppCompatActivity implements View.OnClickListene
         txtWZSM = (EditText) findViewById(R.id.editSZWZ);
         txtSJMS = (EditText) findViewById(R.id.editSJMS);
         txtTitle=(TextView) findViewById(R.id.textViewTitle);
-        txtNewJCJBH= (EditText) findViewById(R.id.editJCJBH);
 
-        //txtTitle.setText("照片上传——");
+        txtTitle.setText("照片上传——"+_gddh);
         Button btnCancel = (Button) findViewById(R.id.btnxjclose);
         btnCancel.setOnClickListener(this);
         Button mbtnok = (Button) findViewById(R.id.btnxjok);
@@ -159,8 +140,6 @@ public class Inspection extends AppCompatActivity implements View.OnClickListene
         adapterSJLB.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterSJLB);
         spinner.setSelection(0, true);
-
-        txtNewJCJBH.setText(_gddh);
 
         pop = new PopupWindow(Inspection.this);
         View view = getLayoutInflater().inflate(R.layout.item_popupwindows, null);
@@ -368,10 +347,10 @@ public class Inspection extends AppCompatActivity implements View.OnClickListene
 //        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //        startActivityForResult(openCameraIntent, TAKE_PICTURE);
 
-        File file = new File(Environment.getExternalStorageDirectory(), "/DCIM/Camera/PSJC/");
+        File file = new File(Environment.getExternalStorageDirectory(), "/DCIM/Camera/");
         if (!file.exists())
             file.mkdirs();
-        fileName = String.valueOf(MainActivity.strUserCode+"_"+txtNewJCJBH.getText().toString().trim() + "_"+SJLBBHList[(int) spinner.getSelectedItemId()] +"_"+ System.currentTimeMillis() + ".JPEG");
+        fileName = String.valueOf(_gddh + "_"+SJLBBHList[(int) spinner.getSelectedItemId()] +"_"+ System.currentTimeMillis() + ".JPEG");
 
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(FileUtils.SDPATH, fileName)));
@@ -394,7 +373,7 @@ public class Inspection extends AppCompatActivity implements View.OnClickListene
 //                    Bimp.tempSelectBitmap.add(takePhoto);
 
                     String path = FileUtils.SDPATH + fileName;
-                    Bitmap bm = FileUtils.convertToBitmap(path, 460, 300);//大小压缩
+                    Bitmap bm = FileUtils.convertToBitmap(path, 480, 800);//大小压缩
                     String savePath = FileUtils.saveBitmap(bm, fileName);//质量压缩并存储
                     ImageItem takePhoto = new ImageItem();
                     takePhoto.setBitmap(bm);
@@ -436,178 +415,23 @@ public class Inspection extends AppCompatActivity implements View.OnClickListene
 //                MainActivity.drawTool.deactivate();
                 break;
             case R.id.btnxjok:
-                try {
-                    String strNewJCJBH = txtNewJCJBH.getText().toString().trim();
-                    if (strNewJCJBH.equals("")) {
-                        Toast toast = Toast.makeText(Inspection.this, "请先输入检修井编号！", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-                        toast.show();
-                        return;
-                    }
+                //事件上报
+                SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+                strEventCode = sDateFormat.format(new java.util.Date());
+                HashMap<String, String> properties = new HashMap<String, String>();
 
-                    if (strNewJCJBH.equals(_gddh)) {
-                        //事件上报
-                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-                        strEventCode = sDateFormat.format(new java.util.Date());
-                        HashMap<String, String> properties = new HashMap<String, String>();
 
-                        iCount = Bimp.tempSelectBitmap.size();
-                        if (iCount > 0) {
-                            iCurCount = 0;
-                            //上传照片
-                            UploadImage(iCurCount);
+                iCount = Bimp.tempSelectBitmap.size();
+                if (iCount > 0) {
+                    iCurCount=0;
+                    //上传照片
+                     UploadImage(iCurCount);
+                 } else {
+                          Toast toast = Toast.makeText(Inspection.this, "请先拍照或者从相册选择要上传的照片！", Toast.LENGTH_SHORT);
+                           toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+                           toast.show();
 
-                            String strCurBH = SJLBBHList[(int) spinner.getSelectedItemId()].toString();
-                            String strZPLX="";
-                            if(strCurBH.equals("01"))
-                            {
-                                ColorRGB = "76,0,0";
-                                strZPLX="0";
-                            }
-                            else  if(strCurBH.equals("02"))
-                            {
-                                ColorRGB = "0,255,0";
-                                strZPLX="1";
-                            }
-                            else  if(strCurBH.equals("03"))
-                            {
-                                ColorRGB = "255,0,0";
-                                strZPLX="2";
-                            }
-                            String[] rgb = ColorRGB.split(",");
-                            Map<String, Object> attributes = new HashMap<String, Object>();
-                            attributes.put("JCJBH",  txtNewJCJBH.getText().toString().trim());
-                            //更改管点颜色
-                            SimpleMarkerSymbol sms = (SimpleMarkerSymbol)gra.getSymbol();
-                            sms.setColor(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
-                            Graphic graphic = new Graphic(pp, sms,attributes);
-                            GDgralayer.updateGraphic((int)gra.getId(),graphic);
-
-                            DBManager.DB_PATH = MainActivity.prjDBpath;
-                            dbManager = new DBManager(this);
-                            db = dbManager.openDatabase();
-
-                            String sql0 = "update YS_POINT set ZPLX ='" +strZPLX + "' where JCJBH = '" + _gddh + "'";
-                            db.execSQL(sql0);
-
-                        } else {
-                            Toast toast = Toast.makeText(Inspection.this, "请先拍照或者从相册选择要上传的照片！", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-                            toast.show();
-                        }
-                    } else {
-                        //判断新编号是否已存在
-                        DBManager.DB_PATH = MainActivity.prjDBpath;
-                        dbManager = new DBManager(this);
-                        db = dbManager.openDatabase();
-
-                        final ContentValues values = new ContentValues();
-                        Map<String, Object> attributes = new HashMap<String, Object>();
-
-                        values.put("JCJBH", txtNewJCJBH.getText().toString().trim());
-                        attributes.put("JCJBH", txtNewJCJBH.getText().toString().trim());
-
-                        String strCurBH = SJLBBHList[(int) spinner.getSelectedItemId()].toString();
-                        if(strCurBH.equals("01"))
-                        {
-                            values.put("ZPLX", "0");
-                        }
-                        else  if(strCurBH.equals("02"))
-                        {
-                            values.put("ZPLX", "1");
-                        }
-                        else  if(strCurBH.equals("03"))
-                        {
-                            values.put("ZPLX", "2");
-                        }
-
-                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        String date = sDateFormat.format(new java.util.Date());
-                        values.put("CJRQ", date);
-                        values.put("SFBH","1");
-
-                        //判断探测点号是否已存在
-                        String sql = "SELECT * FROM YS_POINT WHERE JCJBH='" + txtNewJCJBH.getText().toString().trim() + "'";
-                        Cursor cur = db.rawQuery(sql, null);
-                        if (cur != null) {
-                            if (cur.moveToFirst()) {
-                                db.close();
-
-                                Toast toast = Toast.makeText(this, "点号" + txtNewJCJBH.getText().toString().trim() + "已存在", Toast.LENGTH_SHORT);
-                                toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-                                toast.show();
-                                return;
-                            }
-                        }
-
-                    //修改条件
-                    String whereClause = "JCJBH=?";
-                    //修改添加参数
-                    String[] whereArgs = {String.valueOf(_gddh)};
-                    //修改
-                    db.update("YS_POINT", values, whereClause, whereArgs);
-                       // String sql2 = "update YS_POINT set JCJBH ='" + txtNewJCJBH.getText().toString().trim() + "' and SFBH ='1' and CJRQ= " + date + " where JCJBH = '" + _gddh + "'";
-                       // db.execSQL(sql2);
-
-                        //若点号修改 对应的线表也修改
-                        String sql0 = "update YS_LINE set QDDH ='" + txtNewJCJBH.getText().toString().trim() + "' where QDDH = '" + _gddh + "'";
-                        db.execSQL(sql0);
-
-                        String sql1 = "update YS_LINE set ZDDH ='" + txtNewJCJBH.getText().toString().trim() + "' where ZDDH = '" + _gddh + "'";
-                        db.execSQL(sql1);
-
-                        //添加标注
-
-                        if(strCurBH.equals("01"))
-                        {
-                            ColorRGB = "76,0,0";
-                        }
-                        else  if(strCurBH.equals("02"))
-                        {
-                            ColorRGB = "0,255,0";
-                        }
-                        else  if(strCurBH.equals("03"))
-                        {
-                            ColorRGB = "255,0,0";
-                        }
-
-                        String[] rgb = ColorRGB.split(",");
-                        TextSymbol tsT = new TextSymbol(12, txtNewJCJBH.getText().toString().trim(), Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
-                        tsT.setFontFamily("DroidSansFallback.ttf");
-                        tsT.setOffsetX(5);
-                        tsT.setOffsetY(5);
-                        Graphic graphicT = new Graphic(pp, tsT);
-                        GDAnnogralayer.addGraphic(graphicT);
-
-                        db.close();
-
-                        //事件上报
-                        SimpleDateFormat sDateFormat1 = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-                        strEventCode = sDateFormat1.format(new java.util.Date());
-                        HashMap<String, String> properties = new HashMap<String, String>();
-
-                        iCount = Bimp.tempSelectBitmap.size();
-                        if (iCount > 0) {
-                            iCurCount = 0;
-                            //上传照片
-                            UploadImage(iCurCount);
-                            //更改管点颜色
-                            SimpleMarkerSymbol sms = (SimpleMarkerSymbol)gra.getSymbol();
-                            sms.setColor(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
-                            Graphic graphic = new Graphic(pp, sms,attributes);
-                            GDgralayer.updateGraphic((int)gra.getId(),graphic);
-                        } else {
-                            Toast toast = Toast.makeText(Inspection.this, "请先拍照或者从相册选择要上传的照片！", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-                            toast.show();
-                        }
-                    }
-                }
-                catch (Exception e) {
-                    Toast toast = Toast.makeText(Inspection.this,e.getMessage().toString(), Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
+                 }
                 break;
         }
 
@@ -625,7 +449,7 @@ public class Inspection extends AppCompatActivity implements View.OnClickListene
 
        // string strJCJBH,string strUSERCODE,string strPICTYPE,string strPICCODE,string strBZ,string uploadBuffer
         HashMap<String, String> properties = new HashMap<String, String>();
-        properties.put("strJCJBH", txtNewJCJBH.getText().toString().trim());
+        properties.put("strJCJBH", _gddh);
         properties.put("strUSERCODE", MainActivity.strUserCode);
         properties.put("strPICTYPE", SJLBBHList[(int) spinner.getSelectedItemId()] );
         properties.put("strPICCODE", strEventCode);

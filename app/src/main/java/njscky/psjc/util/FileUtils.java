@@ -13,7 +13,7 @@ import android.os.Environment;
 public class FileUtils {
 	
 	public static String SDPATH = Environment.getExternalStorageDirectory()
-			+ "/DCIM/Camera/PSJC/";
+			+ "/DCIM/Camera/";
 	/**
 	 * 根据路径加载bitmap  将缩放后的bitmap返回去
 	 *

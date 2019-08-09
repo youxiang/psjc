@@ -224,25 +224,47 @@ public class prj_class extends AppCompatActivity implements OnClickListener {
 
             String ColorRGB = "76,0,0";
             GraphicsLayer JCJGDgralry = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
-            JCJGDgralry.setName("雨水管点");
+            JCJGDgralry.setName("雨水管点_检查井");
             GraphicsLayer JCJGDAnnogralry = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
-            JCJGDAnnogralry.setName("雨水管点注记");
-            CreatGDGraphic(JCJGDgralry, JCJGDAnnogralry, "YS_POINT", ColorRGB);
+            JCJGDAnnogralry.setName("雨水管点_检查井注记");
+            CreatGDGraphic(JCJGDgralry, JCJGDAnnogralry, "YS_POINT_JCJ", ColorRGB);
             JCJGDgralry.setMinScale(5000);
             JCJGDAnnogralry.setMinScale(5000);
             JCJGDAnnogralry.setVisible(true);
             MainActivity.mapView.addLayer(JCJGDgralry);
             MainActivity.mapView.addLayer(JCJGDAnnogralry);
 
+            GraphicsLayer TZDGDgralry = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
+            TZDGDgralry.setName("雨水管点_特征点");
+            GraphicsLayer TZDGDAnnogralry = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
+            TZDGDAnnogralry.setName("雨水管点_特征点注记");
+            CreatGDGraphic(TZDGDgralry, TZDGDAnnogralry, "YS_POINT_TZD",  ColorRGB);
+            TZDGDgralry.setMinScale(1000);
+            TZDGDAnnogralry.setMinScale(5000);
+            TZDGDAnnogralry.setVisible(false);
+            MainActivity.mapView.addLayer(TZDGDgralry);
+            MainActivity.mapView.addLayer(TZDGDAnnogralry);
+
+
             GraphicsLayer JCJGXgralry = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
-            JCJGXgralry.setName("雨水管线");
+            JCJGXgralry.setName("雨水管线_检查井");
             GraphicsLayer JCJGXAnnogralry = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
-            JCJGXAnnogralry.setName("雨水管线注记");
-            CreatGXGraphic(JCJGXgralry, JCJGXAnnogralry, "YS_LINE",  ColorRGB);
+            JCJGXAnnogralry.setName("雨水管线_检查井注记");
+            CreatGXGraphic(JCJGXgralry, JCJGXAnnogralry, "YS_LINE_JCJ",  ColorRGB);
             JCJGXAnnogralry.setMinScale(1000);
             JCJGXAnnogralry.setVisible(false);
             MainActivity.mapView.addLayer(JCJGXgralry);
             MainActivity.mapView.addLayer(JCJGXAnnogralry);
+
+            GraphicsLayer TZDGXgralry = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
+            TZDGXgralry.setName("雨水管线_特征点");
+            GraphicsLayer TZDGXAnnogralry = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
+            TZDGXAnnogralry.setName("雨水管线_特征点注记");
+            CreatGXGraphic(TZDGXgralry, TZDGXAnnogralry, "YS_LINE_TZD",  ColorRGB);
+            TZDGXAnnogralry.setMinScale(1000);
+            TZDGXAnnogralry.setVisible(false);
+            MainActivity.mapView.addLayer(TZDGXgralry);
+            MainActivity.mapView.addLayer(TZDGXAnnogralry);
 
             db.close();
             result = 1;
@@ -250,10 +272,6 @@ public class prj_class extends AppCompatActivity implements OnClickListener {
             MainActivity.graphicClassList = graphicClassList;
             MainActivity.ImgTypeList = ImgTypeList;
             MainActivity.ImgNameList = ImgNameList;
-            MainActivity.tmp=JCJGDgralry;
-            MainActivity.tmpAnno=JCJGDAnnogralry;
-            MainActivity.tmpline=JCJGXgralry;
-            MainActivity.tmplineAnno=JCJGXAnnogralry;
 
         } catch (Exception e) {
             result = 0;
@@ -274,69 +292,43 @@ public class prj_class extends AppCompatActivity implements OnClickListener {
 
                         String JCJBH = cur.getString(cur.getColumnIndex("JCJBH"));
                         if (JCJBH == null) JCJBH = "";
-                        String strFSW=cur.getString(cur.getColumnIndex("FSW"));
-                        if (strFSW == null) strFSW = "";
-                        String strSFBH=cur.getString(cur.getColumnIndex("SFBH"));
-                        if (strSFBH == null) strSFBH = "";
 
-
-                        double XZB = cur.getDouble(cur.getColumnIndex("YZB"));
-                        double YZB = cur.getDouble(cur.getColumnIndex("XZB"));
+                        double XZB = cur.getDouble(cur.getColumnIndex("XZB"));
+                        double YZB = cur.getDouble(cur.getColumnIndex("YZB"));
                         Point pt = new Point();
                         pt.setX(XZB);
                         pt.setY(YZB);
 
-                        String strZPLX =cur.getString(cur.getColumnIndex("ZPLX"));
-                        if (strZPLX == null) strZPLX = "";
-                        if(strZPLX.equals("0"))
-                        {
-                            ColorRGB = "76,0,0";
-                        }
-                        else  if(strZPLX.equals("1"))
-                        {
-                            ColorRGB = "0,255,0";
-                        }
-                        else  if(strZPLX.equals("2"))
-                        {
-                            ColorRGB = "255,0,0";
-                        }
-                        else
-                        {
-                            ColorRGB =  "76,0,0";
-                        }
-
                         Map<String, Object> attributes = new HashMap<String, Object>();
                         attributes.put("JCJBH", JCJBH);
 
-
+                        if(TableName=="YS_POINT_JCJ") {
                             String[] rgb = ColorRGB.split(",");
 //                            int imgId = getResources().getIdentifier("ps_jxj", "drawable", getPackageName());
 //                            Drawable image = getResources().getDrawable(imgId);
 //                            PictureMarkerSymbol sms = new PictureMarkerSymbol(image);
-                           if(strFSW.equals("窨井")||strFSW.equals("检修井")) {
-                               SimpleMarkerSymbol sms = new SimpleMarkerSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])), 12, SimpleMarkerSymbol.STYLE.TRIANGLE);
-                               Graphic graphic = new Graphic(pt, sms, attributes);
-                               GDgralry.addGraphic(graphic);
-                           }
-                           else if(strFSW.equals("篦子")) {
-                               SimpleMarkerSymbol sms = new SimpleMarkerSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])), 12, SimpleMarkerSymbol.STYLE.SQUARE);
-                               Graphic graphic = new Graphic(pt, sms, attributes);
-                               GDgralry.addGraphic(graphic);
-                           }
-                        else {
-                               SimpleMarkerSymbol sms = new SimpleMarkerSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])), 12, SimpleMarkerSymbol.STYLE.CIRCLE);
-                               Graphic graphic = new Graphic(pt, sms, attributes);
-                               GDgralry.addGraphic(graphic);
-                           }
+                            SimpleMarkerSymbol sms = new SimpleMarkerSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])),12, SimpleMarkerSymbol.STYLE.TRIANGLE);
+                            Graphic graphic = new Graphic(pt, sms, attributes);
+                            GDgralry.addGraphic(graphic);
+
                             //添加标注
-                            if(strSFBH.equals("1")) {
-                                TextSymbol tsT = new TextSymbol(12, JCJBH, Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
-                                tsT.setFontFamily("DroidSansFallback.ttf");
-                                tsT.setOffsetX(5);
-                                tsT.setOffsetY(5);
-                                Graphic graphicT = new Graphic(pt, tsT);
-                                GDAnnogralry.addGraphic(graphicT);
-                            }
+                            TextSymbol tsT = new TextSymbol(12, JCJBH, Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])));
+                            tsT.setFontFamily("DroidSansFallback.ttf");
+                            tsT.setOffsetX(5);
+                            tsT.setOffsetY(5);
+                            Graphic graphicT = new Graphic(pt, tsT);
+                            GDAnnogralry.addGraphic(graphicT);
+                        }
+                        else
+                        {
+                            String[] rgb = ColorRGB.split(",");
+//                            int imgId = getResources().getIdentifier("ps_zxd", "drawable", getPackageName());
+//                            Drawable image = getResources().getDrawable(imgId);
+                            //PictureMarkerSymbol sms = new PictureMarkerSymbol(image);
+                            SimpleMarkerSymbol sms = new SimpleMarkerSymbol(Color.argb(255, Integer.valueOf(rgb[0]), Integer.valueOf(rgb[1]), Integer.valueOf(rgb[2])), 8, SimpleMarkerSymbol.STYLE.CIRCLE);
+                            Graphic graphic = new Graphic(pt, sms, attributes);
+                            GDgralry.addGraphic(graphic);
+                        }
                     }
                     while (cur.moveToNext());
                 }
@@ -378,16 +370,16 @@ public class prj_class extends AppCompatActivity implements OnClickListener {
                         if (ZDMS == null) ZDMS = "";
 
                         Point ptS = new Point();
-                        double QDXZB = cur.getDouble(cur.getColumnIndex("QDYZB"));
-                        double QDYZB = cur.getDouble(cur.getColumnIndex("QDXZB"));
+                        double QDXZB = cur.getDouble(cur.getColumnIndex("QDXZB"));
+                        double QDYZB = cur.getDouble(cur.getColumnIndex("QDYZB"));
                         if(QDXZB>0&&QDYZB>0) {
                             ptS.setX(QDXZB);
                             ptS.setY(QDYZB);
                         }
 
                         Point ptE = new Point();
-                        double ZDXZB = cur.getDouble(cur.getColumnIndex("ZDYZB"));
-                        double ZDYZB = cur.getDouble(cur.getColumnIndex("ZDXZB"));
+                        double ZDXZB = cur.getDouble(cur.getColumnIndex("ZDXZB"));
+                        double ZDYZB = cur.getDouble(cur.getColumnIndex("ZDYZB"));
                         if(ZDXZB>0&&ZDYZB>0) {
                             ptE.setX(ZDXZB);
                             ptE.setY(ZDYZB);
