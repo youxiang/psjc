@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:drawingCacheQuality="high"
+    android:minHeight="50dp"
+    android:orientation="horizontal" >
+    <TextView
+        android:id="@+id/taskID"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="任务编号"
+        android:textStyle="bold"></TextView>
+
+    <TextView
+        android:id="@+id/taskName"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:text="任务名称"
+        android:textStyle="bold"></TextView>
+
+    <TextView
+        android:id="@+id/taskSpace"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2"
+        android:text="巡查频次"
+        android:textStyle="bold"></TextView>
+
+    <Button android:id="@+id/btnTaskStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_style"
+        android:layout_weight="1"
+        android:text="未开始"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:focusable="false" />
+</LinearLayout>

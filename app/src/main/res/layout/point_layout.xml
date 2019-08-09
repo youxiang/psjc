@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical|center_horizontal">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp">
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="检查井编号"
+                    android:layout_gravity="left|center_vertical"
+                    style="@style/TextViewStyle"
+                    android:layout_margin="10dp" />
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:id="@+id/jcjbhText"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="5dp" />
+
+            </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="井盖材质"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_margin="10dp"
+                        style="@style/TextViewStyle"/>
+                    <Spinner
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:id="@+id/jgczText"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:spinnerMode="dropdown" />
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="井盖情况"
+                        android:layout_gravity="left|center_vertical"
+                        style="@style/TextViewStyle"
+                        android:singleLine="false"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp" />
+                    <Spinner
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:id="@+id/jgqkText"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+                <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="井室材质"
+                    android:layout_gravity="left|center_vertical"
+                    android:layout_margin="10dp"
+                    style="@style/TextViewStyle"/>
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/jsczText"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:spinnerMode="dropdown" />
+
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="井室情况"
+                    android:layout_gravity="left|center_vertical"
+                    style="@style/TextViewStyle"
+                    android:singleLine="false"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/jsqkText"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:spinnerMode="dropdown" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp">
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="井室尺寸"
+                    android:layout_gravity="left|center_vertical"
+                    style="@style/TextViewStyle"
+                    android:layout_margin="10dp" />
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/jsccText"
+                    android:layout_weight="1"
+                    android:background="#ffffff"
+                    android:layout_marginRight="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="是否交叉井"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_margin="10dp"
+                        style="@style/TextViewStyle"/>
+                    <Spinner
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:id="@+id/sfjcjText"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:spinnerMode="dropdown"
+                        android:layout_marginRight="10dp" />
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="雨水篦运行情况"
+                        android:layout_gravity="left"
+                        style="@style/TextViewStyle"
+                        android:singleLine="false"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp" />
+                    <Spinner
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:id="@+id/ysbyxqkText"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                    <RadioButton android:id="@+id/orderBy1"
+                        android:text="连接点1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioButton android:id="@+id/orderBy2"
+                        android:text="连接点2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioButton android:id="@+id/orderBy3"
+                        android:text="连接点3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <RadioButton android:id="@+id/orderBy4"
+                        android:text="连接点4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                </RadioGroup>
+
+                <TabHost
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tabHost">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TabWidget
+                            android:id="@android:id/tabs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></TabWidget>
+
+                        <FrameLayout
+                            android:id="@android:id/tabcontent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <LinearLayout
+                                android:id="@+id/连接点1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:contentDescription="连接点1">
+
+                                <ScrollView
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:scrollbars="vertical"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="#5aa1a9b9">
+                                    <LinearLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="fill_parent"
+                                        android:orientation="vertical">
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="连接点号"
+                                                android:layout_gravity="left"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/ljdhText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="接入方向"
+                                                android:layout_gravity="left"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:id="@+id/jrfxText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="本点标高"
+                                                android:layout_gravity="left"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/bdbgText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="接点标高"
+                                                android:layout_gravity="left"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:id="@+id/jdbgText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="管        径"
+                                                android:layout_gravity="left"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/gjText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="管        材"
+                                                android:layout_gravity="left"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:id="@+id/gcText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="是否混接"
+                                                android:layout_gravity="left"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <Spinner
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/sfhjText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff"
+                                                android:spinnerMode="dropdown" />
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="管道缺陷"
+                                                android:layout_gravity="left"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:id="@+id/gdqxText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="特殊情况"
+                                                android:layout_gravity="left|center_vertical"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/tsqkText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:text="备        注"
+                                                android:layout_gravity="left|center_vertical"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_margin="10dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/bzText"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff"
+                                                android:layout_marginLeft="5dp" />
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+                                </ScrollView>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/连接点2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <ScrollView
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:scrollbars="vertical"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="#5aa1a9b9">
+                                    <LinearLayout
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="fill_parent"
+                                        android:orientation="vertical">
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="连接点号"
+                                                android:layout_gravity="left"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/ljdhText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="接入方向"
+                                                android:layout_gravity="left"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:id="@+id/jrfxText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="本点标高"
+                                                android:layout_gravity="left"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/bdbgText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="接点标高"
+                                                android:layout_gravity="left"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:id="@+id/jdbgText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="管        径"
+                                                android:layout_gravity="left"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/gjText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="管        材"
+                                                android:layout_gravity="left"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:id="@+id/gcText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="是否混接"
+                                                android:layout_gravity="left"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <Spinner
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/sfhjText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff"
+                                                android:spinnerMode="dropdown" />
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="管道缺陷"
+                                                android:layout_gravity="left"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="10dp"
+                                                android:id="@+id/gdqxText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                                android:text="特殊情况"
+                                                android:layout_gravity="left|center_vertical"
+                                                android:layout_margin="10dp"
+                                                style="@style/TextViewStyle"/>
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginLeft="5dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/tsqkText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="fill_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_width="70dp"
+                                                android:layout_height="wrap_content"
+                                                android:text="备        注"
+                                                android:layout_gravity="left|center_vertical"
+                                                style="@style/TextViewStyle"
+                                                android:singleLine="false"
+                                                android:layout_margin="10dp" />
+                                            <EditText
+                                                android:layout_width="fill_parent"
+                                                android:layout_height="30dp"
+                                                android:layout_marginRight="5dp"
+                                                android:id="@+id/bzText2"
+                                                android:layout_weight="1"
+                                                android:background="#ffffff"
+                                                android:layout_marginLeft="5dp" />
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+                                </ScrollView>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/连接点3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <ScrollView
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:scrollbars="vertical"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="#5aa1a9b9">
+                                </ScrollView>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/连接点4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <ScrollView
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:scrollbars="vertical"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="#5aa1a9b9">
+                                </ScrollView>
+                            </LinearLayout>
+                        </FrameLayout>
+                    </LinearLayout>
+                </TabHost>
+            </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

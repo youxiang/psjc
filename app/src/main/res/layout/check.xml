@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/gxdhText"
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="管线点号："
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/ljdhText"
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:text="连接点号："
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextViewStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:text="检查类别："
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioMxd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:checked="true"
+                    android:text="明显点" />
+
+                <RadioButton
+                    android:id="@+id/radioYbd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:text="隐蔽点" />
+
+                <RadioButton
+                    android:id="@+id/radioKwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:text="开挖点" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:background="#5aa1a9b9"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="字段"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="探测值"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="检查值"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="材质"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcczText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="true"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcczText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="管径"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcgjText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcgjText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="埋深"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcmsText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcmsText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="埋设类型"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcmslxText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcmslxText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="电压值"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcdyzText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcdyzText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="压力"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcylText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcylText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="总孔数"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tczksText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jczksText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="电缆条数"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcdltsText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcdltsText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="占用孔数"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tczyksText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jczyksText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="流向"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tclxText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jclxText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.5px"
+                    android:background="#B8B8B8" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="平面偏距"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcpjText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcpjext"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/TextViewStyle"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:text="备注"
+                        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/tcbzText"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#aaaaaa"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:inputType="none" />
+
+                    <View
+                        android:layout_width="0.5px"
+                        android:layout_height="fill_parent"
+                        android:background="#B8B8B8" />
+
+                    <EditText
+                        android:id="@+id/jcbzext"
+                        style="@style/TextViewStyle"
+                        android:layout_width="fill_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="#ffffff"
+                        android:inputType="none" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="检查类型"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="管线类别"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="管线点号"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="连接点号"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="深度差值"></TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="是否超限"></TextView>
+        </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/check_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="180dp" />
+
+    </LinearLayout>
+</LinearLayout>

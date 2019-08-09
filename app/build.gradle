@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+//    buildToolsVersion "22.0.1"
+//    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        applicationId "com.njscky.administrator.psjc"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.esri.arcgis.android:arcgis-android:10.2.7'
+//    implementation files('libs/locSDK_4.1.jar')
+//    implementation files('libs/ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar')
+
+}

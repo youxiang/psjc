@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/loginBorder"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical|center_horizontal">
+
+    <LinearLayout
+        android:id="@+id/login"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/border1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="用户登录"
+            android:textSize="20dp"
+            android:layout_margin="10dp"
+            android:id="@+id/textView"
+            style="@style/TextViewStyle"
+            android:layout_gravity="center_horizontal" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="0dp"
+            android:background="#55FFFFFF"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:focusable="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:focusableInTouchMode="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="账    号"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    style="@style/TextViewStyle"
+                    android:id="@+id/tvUser"
+                    android:gravity="center_vertical" />
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/editUser"
+                    android:background="@drawable/border2"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    style="@style/TextViewStyle"
+                    android:inputType="none"
+                    android:gravity="center_vertical"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_toRightOf="@+id/tvUser"
+                    android:layout_toEndOf="@+id/tvUser" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:focusable="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:focusableInTouchMode="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="密    码"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    style="@style/TextViewStyle"
+                    android:id="@+id/tvPSW"
+                    android:gravity="center_vertical" />
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:id="@+id/editPSW"
+                    android:background="@drawable/border2"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    style="@style/TextViewStyle"
+                    android:inputType="none"
+                    android:gravity="center_vertical"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_toRightOf="@+id/tvPSW"
+                    android:layout_toEndOf="@+id/tvPSW"
+                    android:password="true"
+                    android:text="" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:focusable="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:focusableInTouchMode="true">
+                <CheckBox
+                    android:id="@+id/remember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="记住密码" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:focusable="true"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
+                android:focusableInTouchMode="true">
+                <CheckBox
+                    android:id="@+id/autologin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="自动登录" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="退 出"
+                android:id="@+id/loginclose"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确 定"
+                android:id="@+id/loginok"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

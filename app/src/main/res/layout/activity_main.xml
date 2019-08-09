@@ -1,0 +1,292 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:theme="@style/Theme.AppCompat.Light"
+    tools:context=".MainActivity">
+
+    <com.esri.android.map.MapView
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></com.esri.android.map.MapView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="8dp"
+        android:background="@drawable/border"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1.0"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnGCGL"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/gc"
+                android:text="工程"
+                android:background="#ffffff" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.5px"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#B8B8B8" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1.0"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnSJBJ"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/bj"
+                android:text="编辑"
+                android:background="#ffffff" />
+        </LinearLayout>
+        <View
+            android:layout_width="0.5px"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#B8B8B8" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1.0"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnTCKZ"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/tc"
+                android:text="图层"
+                android:background="#ffffff" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.5px"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#B8B8B8" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+            <Button
+                android:id="@+id/btnGDTJ"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/tj"
+                android:text="清前"
+                android:background="#ffffff" />
+        </LinearLayout>
+        <View
+            android:layout_width="0.5px"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#B8B8B8" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnXJ"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/xj"
+                android:text="照片"
+                android:background="#ffffff" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="65dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/btnyw"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_above="@+id/EditlinearLayout"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btnyw"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/fullbtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_above="@+id/linearLayout"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/fullbtnbj" />
+
+        <ImageButton
+            android:id="@+id/panbtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btnpan" />
+
+        <ImageButton
+            android:id="@+id/gpsbtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btngps" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/EditlinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:background="#cccfcb"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/btneditattribute"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_above="@+id/EditlinearLayout"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/btnattribute" />
+
+        <ImageButton
+            android:id="@+id/btnaddpoint"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_above="@+id/EditlinearLayout"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/btnaddpoint" />
+
+        <ImageButton
+            android:id="@+id/btnaddline"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_above="@+id/EditlinearLayout"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/btnaddline" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/InsepectlinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
+        android:background="#cccfcb"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <Button
+            android:id="@+id/btnDownloadTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="上线签到" />
+
+        <Button
+            android:id="@+id/btnSpeedRemind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="人员下线"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btnEventReport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="事件上报" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textscale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:autoText="false"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="16dp" />
+
+
+</RelativeLayout>
