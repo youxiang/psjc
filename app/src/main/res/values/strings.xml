@@ -16,4 +16,11 @@
     <string name="unfinished">完成</string>
     <string name="camera_cancel">取消</string>
     <string name="no_photo">相册没有图片</string>
+    <string name="username_empty">请输入账号！</string>
+    <string name="password_empty">请输入密码！</string>
+    <string name="login_success">登录成功</string>
+    <string name="project">工程</string>
+    <string name="edit">编辑</string>
+    <string name="graph_layer">图层</string>
+    <string name="picture">照片</string>
 </resources>

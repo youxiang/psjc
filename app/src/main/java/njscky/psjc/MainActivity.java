@@ -1,26 +1,20 @@
 package njscky.psjc;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
@@ -33,7 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,8 +36,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.Layer;
 import com.esri.android.map.MapView;
@@ -52,7 +43,6 @@ import com.esri.android.map.ags.ArcGISLocalTiledLayer;
 import com.esri.android.map.ags.ArcGISTiledMapServiceLayer;
 import com.esri.android.map.event.OnLongPressListener;
 import com.esri.android.map.event.OnSingleTapListener;
-import com.esri.android.map.event.OnStatusChangedListener;
 import com.esri.android.map.event.OnZoomListener;
 import com.esri.android.runtime.ArcGISRuntime;
 import com.esri.core.geometry.Envelope;
@@ -66,7 +56,8 @@ import com.esri.core.symbol.SimpleLineSymbol;
 import com.esri.core.symbol.SimpleMarkerSymbol;
 import com.esri.core.symbol.Symbol;
 import com.esri.core.symbol.TextSymbol;
-import njscky.psjc.util.LocationUtil;
+
+import njscky.psjc.login.LoginActivity;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -76,7 +67,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,7 +76,7 @@ import java.util.Map;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
+
 import njscky.psjc.util.ProgressDialogUtils;
 import njscky.psjc.util.WebServiceUtils;
 
@@ -127,17 +117,27 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     public static Polyline polyline;
     public static String strWorkMode;
 
-    ImageButton BtnAddpoint;
-    ImageButton BtnAddline;
-    ImageButton BtnEditline;
-    ImageButton BtnSplit;
-    ImageButton BtnDelpoint;
-    ImageButton BtnDelline;
-    ImageButton BtnEditAttribute;
-    ImageButton BtnCheck;
-    ImageButton BtnAddYl;
-    ImageButton BtnQustion;
-    TextView TextScale;
+    // 添加管点
+    ImageButton btnAddPoint;
+    // 添加管线
+    ImageButton btnAddLine;
+    // 添加预留管线
+    ImageButton btnAddReserve;
+    // 点线匹配
+    ImageButton btnEditLine;
+    // 管线打断
+    ImageButton btnBreakLine;
+    // 删除管点
+    ImageButton btnDelPoint;
+    // 删除管线
+    ImageButton btnDelLine;
+    // 属性编辑
+    ImageButton btnEditAttribute;
+    // 采集标记
+    ImageButton btnMark;
+
+    ImageButton btnQuestion;
+    TextView tvScale;
     Button btnSJBJ;
 
     Button btnDownloadTask;
@@ -168,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         setContentView(R.layout.activity_main);
         iniView();
         initialize();
@@ -544,10 +542,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 //        mapView.setMinResolution(0.0000001);
         mapView.setMinScale(2000000);
         mapView.setMaxScale(1);
-        TextScale = (TextView) findViewById(R.id.textscale);
+        tvScale = (TextView) findViewById(R.id.textscale);
 
             Intent intent1 = new Intent();
-            intent1.setClass(MainActivity.this, Login.class);
+            intent1.setClass(MainActivity.this, LoginActivity.class);
             startActivity(intent1);
 
         mapView.setOnZoomListener(new OnZoomListener() {
@@ -559,7 +557,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
             public void postAction(float pivotX, float pivotY, double factor) {
                 double dblScale = mapView.getScale();
                 DecimalFormat df = new DecimalFormat("#.00");
-                TextScale.setText("当前比例尺1：" + df.format(dblScale));
+                tvScale.setText("当前比例尺1：" + df.format(dblScale));
             }
         });
 
@@ -649,14 +647,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     private void iniView() {
-        Button btnGCGL = (Button) findViewById(R.id.btnGCGL);
+        Button btnGCGL = findViewById(R.id.btnGCGL);
         Button btnTCKZ = (Button) findViewById(R.id.btnTCKZ);
         btnSJBJ = (Button) findViewById(R.id.btnSJBJ);
         Button btnGDTJ = (Button) findViewById(R.id.btnGDTJ);
         Button btnXJ = (Button) findViewById(R.id.btnXJ);
-        ImageButton btnFull = (ImageButton) findViewById(R.id.fullbtn);
-        ImageButton btnGPS = (ImageButton) findViewById(R.id.gpsbtn);
-        ImageButton btnPan = (ImageButton) findViewById(R.id.panbtn);
+        ImageButton btnFull = (ImageButton) findViewById(R.id.btnFull);
+        ImageButton btnGPS = (ImageButton) findViewById(R.id.btnGps);
+        ImageButton btnPan = (ImageButton) findViewById(R.id.btnPan);
         btnDownloadTask=(Button) findViewById(R.id.btnDownloadTask);
         btnEventReport=(Button) findViewById(R.id.btnEventReport);
         btnSpeedRemind=(Button) findViewById(R.id.btnSpeedRemind);
@@ -676,26 +674,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         Editlyout = (LinearLayout) findViewById(R.id.EditlinearLayout);
         Insepectyout = (LinearLayout) findViewById(R.id.InsepectlinearLayout);
 
-        BtnAddpoint = (ImageButton) findViewById(R.id.btnaddpoint);
-        BtnAddpoint.setOnClickListener(this);
-        BtnAddline = (ImageButton) findViewById(R.id.btnaddline);
-        BtnAddline.setOnClickListener(this);
-        BtnEditline = (ImageButton) findViewById(R.id.btneditline);
-        BtnEditline.setOnClickListener(this);
-        BtnSplit = (ImageButton) findViewById(R.id.btnsplit);
-        BtnSplit.setOnClickListener(this);
-        BtnDelpoint = (ImageButton) findViewById(R.id.btndelpoint);
-        BtnDelpoint.setOnClickListener(this);
-        BtnDelline = (ImageButton) findViewById(R.id.btndelline);
-        BtnDelline.setOnClickListener(this);
-        BtnEditAttribute = (ImageButton) findViewById(R.id.btneditattribute);
-        BtnEditAttribute.setOnClickListener(this);
-        BtnCheck = (ImageButton) findViewById(R.id.btncheck);
-        BtnCheck.setOnClickListener(this);
-        BtnAddYl = (ImageButton) findViewById(R.id.btnyl);
-        BtnAddYl.setOnClickListener(this);
-        BtnQustion = (ImageButton) findViewById(R.id.btnyw);
-        BtnQustion.setOnClickListener(this);
+        btnAddPoint = (ImageButton) findViewById(R.id.btnaddpoint);
+        btnAddPoint.setOnClickListener(this);
+        btnAddLine = (ImageButton) findViewById(R.id.btnaddline);
+        btnAddLine.setOnClickListener(this);
+        btnEditLine = (ImageButton) findViewById(R.id.btneditline);
+        btnEditLine.setOnClickListener(this);
+        btnBreakLine = (ImageButton) findViewById(R.id.btnsplit);
+        btnBreakLine.setOnClickListener(this);
+        btnDelPoint = (ImageButton) findViewById(R.id.btndelpoint);
+        btnDelPoint.setOnClickListener(this);
+        btnDelLine = (ImageButton) findViewById(R.id.btndelline);
+        btnDelLine.setOnClickListener(this);
+        btnEditAttribute = (ImageButton) findViewById(R.id.btneditattribute);
+        btnEditAttribute.setOnClickListener(this);
+        btnMark = (ImageButton) findViewById(R.id.btncheck);
+        btnMark.setOnClickListener(this);
+        btnAddReserve = (ImageButton) findViewById(R.id.btn_reserved);
+        btnAddReserve.setOnClickListener(this);
+        btnQuestion = (ImageButton) findViewById(R.id.btnyw);
+        btnQuestion.setOnClickListener(this);
 
 
     }
@@ -724,16 +722,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                                 .setPositiveButton("确定", null)
                                 .show();
                     } else {
-                            BtnAddpoint.setSelected(false);
-                            BtnAddline.setSelected(false);
-                            BtnEditline.setSelected(false);
-                            BtnDelpoint.setSelected(false);
-                            BtnDelline.setSelected(false);
-                            BtnEditAttribute.setSelected(false);
-                            BtnCheck.setSelected(false);
-                            BtnSplit.setSelected(false);
-                            BtnAddYl.setSelected(false);
-                            BtnQustion.setSelected(false);
+                            btnAddPoint.setSelected(false);
+                            btnAddLine.setSelected(false);
+                            btnEditLine.setSelected(false);
+                            btnDelPoint.setSelected(false);
+                            btnDelLine.setSelected(false);
+                            btnEditAttribute.setSelected(false);
+                            btnMark.setSelected(false);
+                            btnBreakLine.setSelected(false);
+                            btnAddReserve.setSelected(false);
+                            btnQuestion.setSelected(false);
                             EditPanelCreat();
                     }
 
@@ -752,13 +750,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                         startActivity(tjintent);
                     }
                     break;
-                case R.id.fullbtn:
+                case R.id.btnFull:
                     drawTool.deactivate();
                     Envelope env = new Envelope();
                     env.setCoords(119642.008560884, 139699.14891334, 130225.363060926, 144519.536158281);
                     mapView.setExtent(env);
                     break;
-                case R.id.gpsbtn:
+                case R.id.btnGps:
                     drawTool.deactivate();
                     if (tmpgralayer.getNumberOfGraphics() > 0) {
                         tmpgralayer.removeAll();
@@ -769,7 +767,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                         StartGPS();
                     }
                     break;
-                case R.id.panbtn:
+                case R.id.btnPan:
                     drawTool.deactivate();
                     mapView.setOnLongPressListener(null);
                     if (tmpgralayer.getNumberOfGraphics() > 0) {
@@ -777,151 +775,151 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
                     }
                     break;
                 case R.id.btnaddpoint:
-                    BtnAddpoint.setSelected(true);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(false);
+                    btnAddPoint.setSelected(true);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "添加管点", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     AddPoint();
                     break;
                 case R.id.btnaddline:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(true);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(false);
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(true);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "添加管线", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     AddLine();
                     break;
                 case R.id.btndelpoint:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(true);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(false);
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(true);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "删除管点", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     DelPoint();
                     break;
                 case R.id.btndelline:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(true);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(false);
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(true);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "删除管线", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     DelLine();
                     break;
                 case R.id.btneditattribute:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(true);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(false);
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(true);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "属性编辑", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     ModifyAtt();
                     break;
                 case R.id.btncheck:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(true);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(false);
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(true);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "采集标记", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     Check();
                     break;
                 case R.id.btneditline:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(true);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(false);
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(true);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "点线匹配", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     EditLine();
                     break;
                 case R.id.btnsplit:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(true);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(false);
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(true);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "管线打断", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     SplitLine();
                     break;
-                case R.id.btnyl:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(true);
-                    BtnQustion.setSelected(false);
+                case R.id.btn_reserved:
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(true);
+                    btnQuestion.setSelected(false);
                     Toast.makeText(this, "添加预留管线", Toast.LENGTH_SHORT).show();
                     drawTool.deactivate();
                     AddYLLine();
                     break;
                 case R.id.btnyw:
-                    BtnAddpoint.setSelected(false);
-                    BtnAddline.setSelected(false);
-                    BtnEditline.setSelected(false);
-                    BtnDelpoint.setSelected(false);
-                    BtnDelline.setSelected(false);
-                    BtnEditAttribute.setSelected(false);
-                    BtnCheck.setSelected(false);
-                    BtnSplit.setSelected(false);
-                    BtnAddYl.setSelected(false);
-                    BtnQustion.setSelected(true);
+                    btnAddPoint.setSelected(false);
+                    btnAddLine.setSelected(false);
+                    btnEditLine.setSelected(false);
+                    btnDelPoint.setSelected(false);
+                    btnDelLine.setSelected(false);
+                    btnEditAttribute.setSelected(false);
+                    btnMark.setSelected(false);
+                    btnBreakLine.setSelected(false);
+                    btnAddReserve.setSelected(false);
+                    btnQuestion.setSelected(true);
                     strCurFunction="问题标记";
 
                     drawTool.activate(DrawTool.POLYGON);

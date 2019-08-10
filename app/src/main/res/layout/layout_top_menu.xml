@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:background="#cccfcb"
+    android:orientation="horizontal">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_weight="1" />
+
+    <ImageButton
+        android:id="@+id/btnaddpoint"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_above="@+id/EditlinearLayout"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btnaddpoint" />
+
+    <ImageButton
+        android:id="@+id/btnaddline"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_above="@+id/EditlinearLayout"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btnaddline" />
+
+    <ImageButton
+        android:id="@+id/btn_reserved"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/btnyl" />
+
+    <ImageButton
+        android:id="@+id/btneditline"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/btneditline" />
+
+    <ImageButton
+        android:id="@+id/btnsplit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/btnsplit" />
+
+    <ImageButton
+        android:id="@+id/btndelpoint"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/btndelpoint" />
+
+    <ImageButton
+        android:id="@+id/btndelline"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/btndelline" />
+
+    <ImageButton
+        android:id="@+id/btneditattribute"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/btnattribute" />
+
+    <ImageButton
+        android:id="@+id/btncheck"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/btncheck" />
+</LinearLayout>

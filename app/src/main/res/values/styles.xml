@@ -1,6 +1,7 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat">
+        <item name="android:textColor">#333333</item>
     </style>
 
     <style name="CustomWindowTitleBackground">
@@ -13,7 +14,7 @@
     </style>
 
     <color name="Dlgbjcolor">#BBA1A9B9</color>
-    <style name="Layout_dialog">
+    <style name="Layout_dialog" parent="AppTheme">
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
@@ -57,5 +58,20 @@
     <style name="PopupAnimation1" parent="android:Animation" mce_bogus="1">
         <item name="android:windowEnterAnimation">@anim/popup_enter</item>
         <item name="android:windowExitAnimation">@anim/popup_exit</item>
+    </style>
+
+    <style name="BottomMenuButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:paddingLeft">5dp</item>
+    </style>
+
+    <style name="RightMenuButton">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
     </style>
 </resources>

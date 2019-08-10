@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border"
+    android:divider="@drawable/vertical_divier"
+    android:dividerPadding="10dp"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
+    <Button
+        android:id="@+id/btnGCGL"
+        style="@style/BottomMenuButton"
+        android:background="@color/white"
+        android:drawableLeft="@drawable/gc"
+        android:text="@string/project" />
+
+    <Button
+        android:id="@+id/btnSJBJ"
+        style="@style/BottomMenuButton"
+        android:drawableLeft="@drawable/bj"
+        android:text="@string/edit" />
+
+    <Button
+        android:id="@+id/btnTCKZ"
+        style="@style/BottomMenuButton"
+        android:drawableLeft="@drawable/tc"
+        android:text="@string/graph_layer" />
+
+    <Button
+        android:id="@+id/btnGDTJ"
+        style="@style/BottomMenuButton"
+        android:drawableLeft="@drawable/tj"
+        android:text="清前"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btnXJ"
+        style="@style/BottomMenuButton"
+        android:drawableLeft="@drawable/xj"
+        android:text="@string/picture" />
+
+</LinearLayout>
