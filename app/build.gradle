@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-//    buildToolsVersion "22.0.1"
 //    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.njscky.administrator.psjc"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -31,12 +30,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.esri.arcgis.android:arcgis-android:10.2.7'
 //    implementation files('libs/locSDK_4.1.jar')
 //    implementation files('libs/ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar')
 
-    def butterKnifeVersion = "9.0.0"
+    def butterKnifeVersion = "10.1.0"
     implementation "com.jakewharton:butterknife:$butterKnifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 

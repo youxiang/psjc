@@ -1,7 +1,7 @@
 package njscky.psjc.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import njscky.psjc.R;
 import njscky.psjc.base.BaseActivity;
