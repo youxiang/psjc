@@ -166,7 +166,7 @@ public class ShowAllPhoto extends Activity {
 				okButton.setClickable(false);
 //				if (PublicWay.photoService != null) {
 //					PublicWay.selectedDataList.addAll(Bimp.tempSelectBitmap);
-//					Bimp.tempSelectBitmap.clear();
+//					Bimp.tempSelectBitmap.reset();
 //					PublicWay.photoService.onActivityResult(0, -2,
 //							intent);
 //				}

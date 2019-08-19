@@ -3,9 +3,13 @@ package njscky.psjc;
 import android.app.Application;
 import android.util.Log;
 
+import com.esri.android.runtime.ArcGISRuntime;
+
 public class PSJCApp extends Application {
 
     private static final String TAG = PSJCApp.class.getSimpleName();
+
+
 
     @Override
     public void onCreate() {

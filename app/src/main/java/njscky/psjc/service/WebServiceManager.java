@@ -1,7 +1,18 @@
 package njscky.psjc.service;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
+
+import androidx.annotation.Nullable;
+
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -10,12 +21,19 @@ import org.ksoap2.transport.HttpTransportSE;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+import njscky.psjc.MainActivity;
+import njscky.psjc.activity.ImageFile;
+import njscky.psjc.local.AppPrefHelper;
+import njscky.psjc.model.PhotoInfo;
 import njscky.psjc.util.AppExecutors;
+import njscky.psjc.util.GlideApp;
+import njscky.psjc.util.Utils;
 
 public class WebServiceManager {
 
@@ -27,16 +45,28 @@ public class WebServiceManager {
     private static final String METHOD_LOGIN = "UserLogin";
     private static final String RESPONSE_LOGIN = "UserLoginResponse";
     private static final String PROPERTY_LOGIN = "UserLoginResult";
+
+    // InsertJCPicResponse{InsertJCPicResult=操作成功！; }
+
+    private static final String METHOD_INSERT_JC_PIC = "InsertJCPic";
+    private static final String RESPONSE_INSERT_JC_PIC = "InsertJCPicResponse";
+    private static final String PROPERTY_INSERT_JC_PIC = "InsertJCPicResult";
+
     private static volatile WebServiceManager instance;
+    Executor diskExecutor;
     Executor bgThreadExecutor;
     Executor mainThreadExecutor;
     private HttpTransportSE httpTransportSE;
 
-    private WebServiceManager() {
-        this(AppExecutors.getInstance().networkIO(), AppExecutors.getInstance().mainThread());
+    AppPrefHelper appPrefHelper;
+
+    private WebServiceManager(Context context) {
+        this(AppPrefHelper.get(context),AppExecutors.getInstance().diskIO(), AppExecutors.getInstance().networkIO(), AppExecutors.getInstance().mainThread());
     }
 
-    private WebServiceManager(Executor backgroundThreadExecutor, Executor mainThreadExecutor) {
+    private WebServiceManager(AppPrefHelper appPrefHelper, Executor diskExecutor, Executor backgroundThreadExecutor, Executor mainThreadExecutor) {
+        this.appPrefHelper = appPrefHelper;
+        this.diskExecutor = diskExecutor;
         this.bgThreadExecutor = backgroundThreadExecutor;
         this.mainThreadExecutor = mainThreadExecutor;
 
@@ -44,11 +74,11 @@ public class WebServiceManager {
         httpTransportSE.debug = true;
     }
 
-    public static WebServiceManager getInstance() {
+    public static WebServiceManager getInstance(Context context) {
         if (instance == null) {
             synchronized (WebServiceManager.class) {
                 if (instance == null) {
-                    instance = new WebServiceManager();
+                    instance = new WebServiceManager(context);
                 }
             }
         }
@@ -64,7 +94,7 @@ public class WebServiceManager {
             @Override
             public void onResponse(SoapObject response) {
                 if (response != null && TextUtils.equals(response.getName(), RESPONSE_LOGIN)) {
-                    String result = response.getPropertyCount()> 0 ? response.getPropertyAsString(0) : null;
+                    String result = response.getPropertyCount() > 0 ? response.getPropertyAsString(0) : null;
 
                     if (result.contains("登录失败") || result.contains("账号密码不正确")) {
                         callback.onError(result);
@@ -82,6 +112,8 @@ public class WebServiceManager {
     void callWebService(final String method, final Map<String, String> properties, final Callback callback) {
 
         Log.i(TAG, "callWebService:>>> " + method);
+        Log.i(TAG, "callWebService:>>> " + Utils.getPrintStr(properties));
+
         bgThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -134,6 +166,47 @@ public class WebServiceManager {
         });
     }
 
+    public void insertJCPic(
+            PhotoInfo photoInfo,
+            String reportId,
+            String eventCode,
+            String picType,
+            String remark,
+            InsertJCPicCallback callback
+    ) {
+        diskExecutor.execute(() -> {
+            Bitmap bitmap = Utils.getBitmap(photoInfo.path, 480, 800);
+            byte[] data = Utils.compressBitmap(bitmap);
+            String base64Data = new String(Base64.encode(data, Base64.DEFAULT));
+
+            HashMap<String, String> properties = new HashMap<String, String>();
+            properties.put("strJCJBH", reportId);
+            properties.put("strUSERCODE", appPrefHelper.getUserCode());
+            properties.put("strPICTYPE", picType);
+            properties.put("strPICCODE", eventCode);
+            properties.put("strBZ", remark);
+            properties.put("uploadBuffer", base64Data);
+
+            callWebService("InsertJCPic", properties, response -> {
+                // InsertJCPicResponse{InsertJCPicResult=操作成功！; }
+                if (response != null && TextUtils.equals(response.getName(), RESPONSE_INSERT_JC_PIC)) {
+                    String result = response.getPropertyCount() > 0 ? response.getPropertyAsString(0) : null;
+
+                    if (!result.contains("操作成功！")) {
+                        callback.onError(result);
+                    } else {
+                        callback.onUploadSuccess(result);
+                    }
+                } else {
+                    callback.onError("操作异常");
+                }
+
+            });
+        });
+
+
+    }
+
     public interface Callback {
         void onResponse(SoapObject response);
     }
@@ -143,4 +216,11 @@ public class WebServiceManager {
 
         void onError(String msg);
     }
+
+    public interface InsertJCPicCallback {
+        void onUploadSuccess(String result);
+
+        void onError(String result);
+    }
+
 }

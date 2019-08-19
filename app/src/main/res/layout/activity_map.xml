@@ -9,16 +9,19 @@
         android:layout_height="match_parent" />
 
     <FrameLayout
+        android:id="@+id/edit_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal">
+        android:layout_gravity="top|center_horizontal"
+        android:visibility="gone">
 
         <include layout="@layout/layout_top_menu" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <include layout="@layout/layout_inspect" />
 
@@ -35,13 +38,24 @@
 
     </FrameLayout>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textscale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|bottom"
+            android:text=""
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
         <include layout="@layout/layout_bottom_menu" />
-    </FrameLayout>
+    </LinearLayout>
+
 
 </FrameLayout>

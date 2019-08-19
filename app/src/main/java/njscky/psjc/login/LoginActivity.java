@@ -2,13 +2,10 @@ package njscky.psjc.login;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import org.ksoap2.serialization.SoapObject;
 
 import njscky.psjc.R;
 import njscky.psjc.base.BaseActivity;
@@ -35,8 +32,12 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         prefHelper = AppPrefHelper.get(this);
-        webServiceManager = WebServiceManager.getInstance();
+        webServiceManager = WebServiceManager.getInstance(this);
         initView();
+
+        if (prefHelper.isAutoLogin()) {
+            startLogin();
+        }
     }
 
     private void initView() {
@@ -57,19 +58,9 @@ public class LoginActivity extends BaseActivity {
         edUserName.setText(isRemember ? userName : "");
         etPassword.setText(isRemember ? password : "");
 
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startLogin();
-            }
-        });
+        btnOk.setOnClickListener(v -> startLogin());
 
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        btnClose.setOnClickListener(v -> finish());
 
     }
 
@@ -87,9 +78,11 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
+        showLoading();
         webServiceManager.userLogin(userName, password, new WebServiceManager.LoginCallback() {
             @Override
             public void onUserCode(String userCode) {
+                hideLoading();
                 prefHelper.saveUserCode(userCode);
                 prefHelper.saveUserName(userName);
                 prefHelper.savePassword(password);
@@ -102,17 +95,10 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onError(String msg) {
+                hideLoading();
                 Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private String getUserNumber(SoapObject result) {
-        return result.toString().substring(result.toString().indexOf("=") + 1, result.toString().indexOf(";"));
-    }
-
-    private boolean isLoginError(SoapObject result) {
-        return result.toString().contains("登录失败") || result.toString().contains("账号密码不正确");
     }
 
 }

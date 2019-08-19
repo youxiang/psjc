@@ -78,20 +78,20 @@ public class prj_class extends AppCompatActivity implements OnClickListener {
 
     private void iniEvents() {
         mlistview = (ListView) findViewById(R.id.listView1);
-        Button mbtnexit = (Button) findViewById(R.id.btnexit);
+        Button mbtnexit = (Button) findViewById(R.id.btn_exit);
         mbtnexit.setOnClickListener(this);
-        Button mbtnok2 = (Button) findViewById(R.id.btnok2);
+        Button mbtnok2 = (Button) findViewById(R.id.btn_ok);
         mbtnok2.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnexit:
+            case R.id.btn_exit:
                 this.finish();
                 break;
 
-            case R.id.btnok2:
+            case R.id.btn_ok:
                 if (prjDBpath != "") {
 //                    if(!prjDBpath.equals(MainActivity.prjDBpath)) {
                     progressDialog = ProgressDialog.show(prj_class.this, "请稍候...", "正在加载数据...", true);

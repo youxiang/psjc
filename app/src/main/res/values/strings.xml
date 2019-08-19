@@ -23,4 +23,24 @@
     <string name="edit">编辑</string>
     <string name="graph_layer">图层</string>
     <string name="picture">照片</string>
+    <string name="scale_text">当前比例尺1：%1$s</string>
+    <string name="dialog_title">提示</string>
+    <string name="no_edit_project">当前没有可编辑的对象，请先打开一个工程</string>
+    <string name="confirm">确定</string>
+    <string name="project_management">工程管理</string>
+    <string name="project_list">工程列表</string>
+    <string name="exit">退出</string>
+    <string name="open_project_file_fail">打开工程失败</string>
+    <string name="close">关闭</string>
+    <string name="add_point">添加管点</string>
+    <string name="collect_mark">采集标记</string>
+    <string name="open_gps">请开启GPS导航...</string>
+    <string name="point_property">管点属性</string>
+    <string name="cancel">取消</string>
+    <string name="report_title">照片上传</string>
+    <string name="report_title_format">照片上传——%1$s</string>
+    <string name="delete_photo">是否删除照片%1$s?</string>
+    <string name="report_no_uploaded_photos">请先拍照或者从相册选择要上传的照片！</string>
+    <string name="report_photos_upload_success">照片上传成功！</string>
+    <string name="no_permission">请先到设置检查权限</string>
 </resources>

@@ -65,7 +65,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/button_style"
                 android:text="退 出"
-                android:id="@+id/btnexit"
+                android:id="@+id/btn_exit"
                 android:layout_marginRight="10dp"
                 android:layout_gravity="center" />
 
@@ -74,7 +74,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/button_style"
                 android:text="确 定"
-                android:id="@+id/btnok2"
+                android:id="@+id/btn_ok"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center" />
         </LinearLayout>

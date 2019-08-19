@@ -2,25 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:padding="4dp"
     android:orientation="vertical">
 
     <ImageButton
         android:id="@+id/btnyw"
         style="@style/RightMenuButton"
-        android:src="@drawable/btnyw" />
+        android:background="@drawable/btnyw" />
 
     <ImageButton
         android:id="@+id/btnFull"
         style="@style/RightMenuButton"
-        android:src="@drawable/fullbtnbj" />
+        android:background="@drawable/fullbtnbj" />
 
     <ImageButton
         android:id="@+id/btnPan"
         style="@style/RightMenuButton"
-        android:src="@drawable/btnpan" />
+        android:background="@drawable/btnpan" />
 
     <ImageButton
         android:id="@+id/btnGps"
         style="@style/RightMenuButton"
-        android:src="@drawable/btngps" />
+        android:background="@drawable/btngps" />
 </LinearLayout>
