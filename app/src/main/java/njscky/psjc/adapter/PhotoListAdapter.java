@@ -138,7 +138,7 @@ public class PhotoListAdapter extends RecyclerView.Adapter<PhotoListAdapter.VH> 
                 int pos = getAdapterPosition();
                 boolean showAddBtn = showAddBtn();
                 if (pos == getItemCount() - 1 && showAddBtn) {
-                    Log.w(TAG, "VH: do nothing" );
+                    Log.w(TAG, "CommonVH: do nothing" );
                 } else {
                     showRemoveItemDialog(v.getContext(),pos);
                 }

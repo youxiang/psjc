@@ -49,10 +49,14 @@ public class MapManager {
     private static final String CLIENT_ID = "yhMRjFXTz6F38XD9";
     private final Context context;
 
+    public static final String MAP_SERVER_URL = "http://58.213.48.108/arcgis/rest/services/%E5%8D%97%E4%BA%AC%E5%9F%BA%E7%A1%80%E5%BA%95%E5%9B%BE2016/MapServer";
+
+    public HashMap<Integer, Layer> layers;
 
     public MapManager(Context context) {
         this.context = context.getApplicationContext();
         ArcGISRuntime.setClientId(CLIENT_ID);
+        layers = new HashMap<>();
     }
 
     public void loadMap(MapView mapView) {
@@ -84,7 +88,7 @@ public class MapManager {
     void loadOnlineMap(MapView mapView) {
         Log.i(TAG, "loadOnlineMap: ");
         if (Utils.hasNetwork(context)) {
-            ArcGISTiledMapServiceLayer TitleLayerbase = new ArcGISTiledMapServiceLayer("http://58.213.48.108/arcgis/rest/services/%E5%8D%97%E4%BA%AC%E5%9F%BA%E7%A1%80%E5%BA%95%E5%9B%BE2016/MapServer");
+            ArcGISTiledMapServiceLayer TitleLayerbase = new ArcGISTiledMapServiceLayer(MAP_SERVER_URL);
             TitleLayerbase.setName("南京基础底图");
 
             mapView.addLayer(TitleLayerbase);
@@ -163,7 +167,6 @@ public class MapManager {
 
         GraphicsLayer graphicsLayer = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
         graphicsLayer.setName(getPipePointLayerName(type));
-
         GraphicsLayer annotationLayer = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
         annotationLayer.setName(getPipePointAnnotationLayerName(type));
 
@@ -177,11 +180,12 @@ public class MapManager {
             while (cursor.moveToNext()) {
                 PipePoint pipePoint = new PipePoint(cursor);
 
-                Point point = new Point(pipePoint.XZB, pipePoint.YZB);
+                Point point = new Point(Utils.parseDouble(pipePoint.XZB), Utils.parseDouble(pipePoint.YZB));
                 SimpleMarkerSymbol markerSymbol = new SimpleMarkerSymbol(colorSymbol, sizeSymbol, SimpleMarkerSymbol.STYLE.TRIANGLE);
 
                 Map<String, Object> attributes = new HashMap<String, Object>();
                 attributes.put("JCJBH", pipePoint.JCJBH);
+                attributes.put("OBJECTID", pipePoint.OBJECTID);
 
                 Graphic graphic = new Graphic(point, markerSymbol, attributes);
                 graphicsLayer.addGraphic(graphic);
@@ -199,9 +203,9 @@ public class MapManager {
             graphicsLayer.setMinScale(type == TYPE_POINT_JCJ ? 5000 : 1000);
             annotationLayer.setMinScale(5000);
             annotationLayer.setVisible(type == TYPE_POINT_JCJ);
-
             mapView.addLayer(graphicsLayer);
             mapView.addLayer(annotationLayer);
+            layers.put(type, graphicsLayer);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -241,14 +245,19 @@ public class MapManager {
                 PipeLine pipeLine = new PipeLine(cursor);
 
                 Point startPoint = new Point();
-                if (pipeLine.QDXZB > 0 && pipeLine.QDYZB > 0) {
-                    startPoint.setX(pipeLine.QDXZB);
-                    startPoint.setY(pipeLine.QDYZB);
+                double qdxzb = Utils.parseDouble(pipeLine.QDXZB);
+                double qdyzb =  Utils.parseDouble(pipeLine.QDYZB);
+                if (qdxzb > 0 && qdyzb> 0) {
+                    startPoint.setX(qdxzb);
+                    startPoint.setY(qdyzb);
                 }
                 Point endPoint = new Point();
-                if (pipeLine.ZDXZB > 0 && pipeLine.ZDYZB > 0) {
-                    endPoint.setX(pipeLine.ZDXZB);
-                    endPoint.setY(pipeLine.ZDYZB);
+                double zdxzb = Utils.parseDouble(pipeLine.ZDXZB);
+                double zdyzb =  Utils.parseDouble(pipeLine.ZDYZB);
+
+                if (zdxzb> 0 && zdyzb > 0) {
+                    endPoint.setX(zdxzb);
+                    endPoint.setY(zdyzb);
                 }
                 if (startPoint.isValid() && endPoint.isValid()) {
                     Line line = new Line();
@@ -265,6 +274,7 @@ public class MapManager {
                     attributes.put("GJ", pipeLine.GJ);
                     attributes.put("QDMS", pipeLine.QDMS);
                     attributes.put("ZDMS", pipeLine.ZDMS);
+                    attributes.put("pipeLine", pipeLine);
 
                     Graphic polylineGraphic = new Graphic(polyline, lineSymbol, attributes);
                     graphicsLayer.addGraphic(polylineGraphic);
@@ -281,6 +291,7 @@ public class MapManager {
 
             mapView.addLayer(graphicsLayer);
             mapView.addLayer(annotationLayer);
+            layers.put(type, graphicsLayer);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -316,10 +327,10 @@ public class MapManager {
         PictureMarkerSymbol pictureMarkerSymbol = new PictureMarkerSymbol(img);
         Point point = new Point(converted[0], converted[1]);
         Graphic graphic = new Graphic(point, pictureMarkerSymbol);
-
         layer.removeAll();
         layer.addGraphic(graphic);
 
         mapView.zoomTo(point, 1);
     }
+
 }

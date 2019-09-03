@@ -32,7 +32,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.esri.arcgis.android:arcgis-android:10.2.7'
+    implementation 'com.esri.arcgis.android:arcgis-android:10.2.9'
+//    implementation 'com.esri.arcgisruntime:arcgis-android:100.6.0'
+    implementation 'com.google.android.material:material:1.0.0'
 //    implementation files('libs/locSDK_4.1.jar')
 //    implementation files('libs/ksoap2-android-assembly-3.3.0-jar-with-dependencies.jar')
 
@@ -45,5 +47,6 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide"
+    implementation 'com.google.code.gson:gson:2.8.5'
 
 }

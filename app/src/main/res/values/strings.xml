@@ -43,4 +43,5 @@
     <string name="report_no_uploaded_photos">请先拍照或者从相册选择要上传的照片！</string>
     <string name="report_photos_upload_success">照片上传成功！</string>
     <string name="no_permission">请先到设置检查权限</string>
+    <string name="choose_points">选择检查井</string>
 </resources>

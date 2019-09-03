@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,7 +26,22 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 
+import njscky.psjc.model.PipePoint;
+
 public class Utils {
+
+    private static final Gson GSON = new Gson();
+
+    public static boolean hasNetwork(Context context) {
+        ConnectivityManager con = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = con.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (networkInfo != null && networkInfo.isConnected()) {
+            return true;
+        }
+        networkInfo = con.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        return networkInfo != null && networkInfo.isConnected();
+    }
 
     public static final String parsePolygonPath(Polygon polygon) {
 
@@ -45,17 +61,6 @@ public class Utils {
         sb.append(tail).append(")");
         return sb.toString();
 
-    }
-
-    public static boolean hasNetwork(Context context) {
-        ConnectivityManager con = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = con.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        if (networkInfo != null && networkInfo.isConnected()) {
-            return true;
-        }
-        networkInfo = con.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        return networkInfo != null && networkInfo.isConnected();
     }
 
     public static String saveBitmap(Bitmap bm, File savedFile) {
@@ -227,5 +232,17 @@ public class Utils {
             sb.append(entry.getKey()).append(" ==== ").append(entry.getValue()).append("\n");
         }
         return sb.toString();
+    }
+
+    public static double parseDouble(String str) {
+        try {
+            return Double.parseDouble(str);
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public static String toJson(Object obj) {
+        return GSON.toJson(obj);
     }
 }

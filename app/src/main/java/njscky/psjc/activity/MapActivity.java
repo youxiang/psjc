@@ -27,7 +27,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.Layer;
-import com.esri.android.map.LocationDisplayManager;
 import com.esri.android.map.MapView;
 import com.esri.android.map.event.OnLongPressListener;
 import com.esri.android.map.event.OnSingleTapListener;
@@ -37,37 +36,32 @@ import com.esri.core.geometry.Envelope;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.map.Graphic;
 
-import org.ksoap2.serialization.SoapObject;
-
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import njscky.psjc.CoordinateConversion;
 import njscky.psjc.DrawEventListener;
 import njscky.psjc.DrawTool;
-import njscky.psjc.Inspection;
-import njscky.psjc.MainActivity;
 import njscky.psjc.Question;
 import njscky.psjc.R;
+import njscky.psjc.adapter.GraphicListAdpater;
 import njscky.psjc.base.BaseActivity;
 import njscky.psjc.login.LoginActivity;
 import njscky.psjc.model.LayerInfo;
 import njscky.psjc.service.DbManager;
 import njscky.psjc.service.MapManager;
-import njscky.psjc.service.WebServiceManager;
 import njscky.psjc.util.AppExecutors;
-import njscky.psjc.util.ProgressDialogUtils;
 import njscky.psjc.util.Utils;
-import njscky.psjc.util.WebServiceUtils;
 
 import static android.location.LocationManager.GPS_PROVIDER;
 import static android.location.LocationManager.NETWORK_PROVIDER;
+import static njscky.psjc.service.MapManager.TYPE_POINT_JCJ;
 
 public class MapActivity extends BaseActivity {
     private static final String TAG = "MapActivity";
@@ -173,6 +167,8 @@ public class MapActivity extends BaseActivity {
 
         }
     };
+    private DbManager dbManager;
+    private AlertDialog choosePointsDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -214,6 +210,7 @@ public class MapActivity extends BaseActivity {
     }
 
     private void initMapView() {
+        dbManager = DbManager.getInstance();
         mapManager = new MapManager(this);
         mapManager.loadMap(mapView);
         mBaseLayer = new GraphicsLayer(GraphicsLayer.RenderingMode.STATIC);
@@ -239,24 +236,37 @@ public class MapActivity extends BaseActivity {
         });
 
         mapView.setOnSingleTapListener((OnSingleTapListener) (x, y) -> {
-            Layer layer = mapManager.getLayerByName("雨水管点_检查井", mapView);
-            if (layer instanceof GraphicsLayer) {
-                int[] graphicsIds = ((GraphicsLayer) layer).getGraphicIDs();
 
-                if (graphicsIds != null && graphicsIds.length > 0) {
-                    for (int graphicsId : graphicsIds) {
-                        Graphic graphic = ((GraphicsLayer) layer).getGraphic(graphicsId);
-                        String[] attributeNames = graphic.getAttributeNames();
+            GraphicsLayer layer = (GraphicsLayer) mapManager.getLayerByName("雨水管点_检查井", mapView);
 
-                        if (attributeNames != null && attributeNames.length > 0) {
-                            Intent intent = new Intent(this, ReportActivity.class);
-                            intent.putExtra("reportId", graphic.getAttributeValue("JCJBH").toString().trim());
-                            startActivity(intent);
-                            break;
-                        }
-                    }
+            if (layer != null) {
+                int[] graphicIDs = layer.getGraphicIDs(x, y, 10);
+
+                if (graphicIDs == null || graphicIDs.length == 0) {
+                    Toast.makeText(this, "此处无检查井", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+//                if (graphicIDs.length == 1) {
+//                    Intent intent = new Intent(this, PipePointActivity.class);
+//                    intent.putExtra("graphic", layer.getGraphic(graphicIDs[0]));
+//                    startActivity(intent);
+//                }
+
+                Log.i(TAG, "initMapView: " + Arrays.toString(graphicIDs));
+
+                List<Graphic> graphics = new ArrayList<>(graphicIDs.length);
+
+                for (int graphicId : graphicIDs) {
+                    Graphic graphic = layer.getGraphic(graphicId);
+                    Log.i(TAG, "initMapView: " + graphic.getGeometry());
+                    graphics.add(graphic);
+                }
+
+                choosePoints(graphics);
             }
+
+
         });
 
         mapView.setOnStatusChangedListener((OnStatusChangedListener) (o, status) -> {
@@ -275,6 +285,45 @@ public class MapActivity extends BaseActivity {
             return true;
         });
 
+    }
+
+    private void choosePoints(List<Graphic> graphics) {
+        choosePointsDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.choose_points)
+                .setAdapter(
+                        new GraphicListAdpater(graphics),
+                        (dialog, which) -> {
+                            Log.i(TAG, "choosePoints: " + which);
+                            Intent intent = new Intent(this, PipePointActivity.class);
+                            intent.putExtra("graphic", graphics.get(which));
+                            startActivity(intent);
+                        }
+                )
+                .create();
+
+        choosePointsDialog.show();
+
+    }
+
+    private void report() {
+        Layer layer = mapManager.getLayerByName("雨水管点_检查井", mapView);
+        if (layer instanceof GraphicsLayer) {
+            int[] graphicsIds = ((GraphicsLayer) layer).getGraphicIDs();
+
+            if (graphicsIds != null && graphicsIds.length > 0) {
+                for (int graphicsId : graphicsIds) {
+                    Graphic graphic = ((GraphicsLayer) layer).getGraphic(graphicsId);
+                    String[] attributeNames = graphic.getAttributeNames();
+
+                    if (attributeNames != null && attributeNames.length > 0) {
+                        Intent intent = new Intent(this, ReportActivity.class);
+                        intent.putExtra("reportId", graphic.getAttributeValue("JCJBH").toString().trim());
+                        startActivity(intent);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private void updateScale() {
@@ -556,15 +605,16 @@ public class MapActivity extends BaseActivity {
         }
 
         diskExecutor.execute(() -> {
-            DbManager dbManager = new DbManager(dbFilePath);
 
-            mapManager.addPipePointLayers(mapView, dbManager, MapManager.TYPE_POINT_JCJ);
+            if (!dbManager.isOpen()) {
+                dbManager.openDataBase(dbFilePath);
+            }
+
+            mapManager.addPipePointLayers(mapView, dbManager, TYPE_POINT_JCJ);
             mapManager.addPipePointLayers(mapView, dbManager, MapManager.TYPE_POINT_TZD);
 
             mapManager.addPipeLineLayers(mapView, dbManager, MapManager.TYPE_LINE_JCJ);
             mapManager.addPipeLineLayers(mapView, dbManager, MapManager.TYPE_LINE_TZD);
-
-            dbManager.closeDb();
 
             Log.i(TAG, "handleProject: handle project done!");
 

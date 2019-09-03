@@ -132,6 +132,8 @@
         <activity android:name=".activity.AddPointActivity" />
         <activity android:name=".activity.ReportActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity android:name=".activity.PipePointActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
         <provider
             android:authorities="com.njscky.administrator.psjc.fileprovider"
